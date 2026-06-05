@@ -19,6 +19,16 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-05 · [audio][verify] Rhythm game: self-synced chart + cách test audio-clock game trong headless
+Rút từ build `beatfall` (4-lane synthwave rhythm tap, nhạc synth WebAudio).
+- **[audio] Self-sync "by construction":** sinh beatmap TỪ chính note-data của bài hát rồi lịch cả audio LẪN visual theo MỘT đồng hồ `AudioContext.currentTime`. Mỗi note: phát tiếng tại `hitTime`, ô rơi tới vạch đúng `hitTime` (spawn ở `hitTime - travelTime`). ⇒ không bao giờ lệch, không cần "chart tay" theo file mp3. Lịch audio bằng **lookahead scheduler** (mỗi ~25ms, đẩy event có `t < now + 0.12s`) — pattern "two clocks". Difficulty chỉ lọc subset note được chart (density) + đổi travelTime; nhạc nền (lead/bass/pad/drum) luôn phát đầy đủ nên bài luôn nghe trọn ở mọi mức.
+- **[verify] Headless Chrome cho game dùng audio clock:** `AudioContext.currentTime` KHÔNG nhích nếu context `suspended` → headless phải bật cờ `--autoplay-policy=no-user-gesture-required` rồi `ctx.resume()`. **`--virtual-time-budget` KHÔNG đẩy audio clock** (nó chỉ ảo hoá timer JS) → phải **đợi wall-clock thật** (`setTimeout`) bằng puppeteer; muốn chụp "kết quả thật" thì để bot chơi hết bài thật (~50-60s) rồi `finishSong` tự tính grade.
+- **[verify] Bot test PHẢI đi qua input path thật.** Bot gọi thẳng `award()` thì KHÔNG kiểm được handler bàn phím/tap. Thêm bot phụ **dispatch KeyboardEvent thật** qua handler. ⚠️ `new KeyboardEvent('keydown',{code})` mặc định `bubbles:false` → dispatch lên `document` KHÔNG tới listener ở `window` (bị "miss" hết). Phải `{code, bubbles:true}` và dispatch đúng target. (Tap path: `cv.dispatchEvent(new PointerEvent('pointerdown',{clientX,clientY,bubbles:true}))`.)
+- **[design] Đừng làm intro dài/thưa.** Bản đầu để 2 bar "giữ hợp âm" rồi melody mới vào ở beat 8 → ~5s gần như im lặng ở 96bpm: vừa chán, vừa làm bot test chỉ ăn được 3 note (score kẹt 900, grade D giả). ⇒ Cho note chơi được từ **beat 0**, dùng count-in (3·2·1) lo phần "sẵn sàng".
+- **[design] Tên game dài bị cắt trong khung phone.** `h1` gradient-clip với `clamp(36px,13vw,60px)` → "BEATFALL" (8 ký tự) tràn panel `max-width:380px` và **cụt chữ cuối ("BEATFAL")** mà không báo lỗi. ⇒ Cỡ tiêu đề theo **bề ngang KHUNG** (panel), không theo `vw` màn hình; soi screenshot menu để chắc đủ chữ. (LESSONS chung: chụp xong phải soi vỡ layout.)
+- **[design] Overlay mới phải toggle luôn lớp ẩn-HUD.** Thêm màn Pause nhưng quên add class `overlay-open` ⇒ HUD (score/acc) lòi xuyên qua dialog Pause. Mọi overlay che gameplay đều phải bật `.overlay-open` (ẩn HUD), tắt khi resume.
+- **Game:** `beatfall`.
+
 ## 2026-06-04 · [verify] Stale `http.server` trên cổng dùng chung → test NHẦM game khác
 - **Triệu chứng:** Headless Chrome mở `localhost:8773`, mọi screenshot ra… **PRISM POUR** chứ không phải game đang build. `document.querySelector('#coreZone')` trả `null`, `document.title` = tên game khác. Tưởng DOM vỡ / service worker hỏng, mò gần 20 phút.
 - **Nguyên nhân:** Một `python -m http.server 8773` của phiên build game **trước** vẫn còn chạy, serve thư mục game cũ. Lệnh `http.server 8773` mới **không bind được** (cổng bận) nhưng fail im lặng trong background → `curl` vẫn 200 (từ server cũ). Cổng "đời cha để lại".

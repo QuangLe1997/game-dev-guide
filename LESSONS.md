@@ -19,6 +19,25 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-05 · [verify][mobile] Headless Chrome dựng mobile-frame ở 480px → ảnh evidence "tràn nút" GIẢ ở cửa sổ 390
+- **Triệu chứng:** Build sheet (hàng 3 nút tower flex) bị **cắt nút thứ 3** chỉ khi chụp `--window-size=390,844`; ở 480 thì vừa khít. Tưởng vỡ layout mobile.
+- **Nguyên nhân:** Headless Chrome (CLI, không bật device-emulation qua DevTools) **KHÔNG tôn trọng `<meta width=device-width>`** → `innerWidth`/`100vw` báo ~**484** dù cửa sổ 390 (đo bằng probe `getComputedStyle(body).width`). App dùng `width:min(100vw,480px)` → ra **480**, nhồi vào cửa sổ 390 → cắt mép phải. Trên điện thoại thật `100vw=390` nên app=390, KHÔNG tràn. Đây là **artifact headless**, không phải bug.
+- **Cách xử lý:** (1) Chụp evidence "mobile" cho game **mobile-frame (strategy A)** ở đúng **bề rộng khung** (≥ max-width, vd 480×844) — đó CHÍNH là layout phone thấy; chụp 390 ra "vỡ giả". Chụp "desktop" ở 1280×800 để show letterbox. (2) Vẫn thủ phòng cho phone hẹp thật: thêm `min-width:0` + `flex:1 1 0` cho MỌI flex-child (mặc định `min-width:auto`=min-content → tràn khi <480; nhất là sau `all:unset`). (3) Nghi "vỡ ở viewport N" → **đo `innerWidth` thật** bằng probe TRƯỚC khi sửa mù.
+- **Game:** `ion-towers`.
+
+## 2026-06-05 · [verify] Headless Chrome CACHE HTML theo URL → sửa CSS xong chụp lại vẫn thấy bản cũ
+- **Triệu chứng:** Sửa CSS, `curl` xác nhận file served đã đổi, nhưng screenshot headless **vẫn y hệt bản lỗi**. Mò ~10 phút tưởng CSS không ăn.
+- **Nguyên nhân:** Gọi `chrome --headless --screenshot URL` với **cùng URL** → Chrome dùng **disk cache** HTML cũ (dù instance mới). `python http.server` gửi `Last-Modified` nên Chrome coi còn fresh.
+- **Cách xử lý:** Luôn thêm **cache-buster duy nhất** vào URL mỗi lần chụp: `"...?cb=$([guid]::NewGuid().ToString('N'))&shot=..."`. (Bổ sung họ "đừng tin lần chụp đầu" của bài học stale-server 2026-06-04.)
+- **Game:** `ion-towers`.
+
+## 2026-06-05 · [verify][design] TD/wave game: viết IN-ENGINE balance-sim (bot dở tự chơi hết level) để chỉnh độ khó
+- **Triệu chứng:** Không thể "chơi tay" 8 map × ~13 wave để biết đường cong khó hợp lý chưa; chỉnh số mù dễ lệch (map dễ thắng full, map khó bất khả thi).
+- **Nguyên nhân:** Cân bằng TD phụ thuộc cả cách chơi; nhìn số CONFIG không đủ.
+- **Cách xử lý:** Hook `?shot=sim` chạy **`_simAll()`**: một **bot ngẫu nhiên "trung bình"** (mỗi đợt nghỉ: mua/nâng tower gần path rồi gọi wave ngay) tự chơi hết 8 sector **bằng chính game-logic thật** (`step()`), in bảng WIN/LOSS + core còn lại + wave đạt. Tốc độ: cờ **`SIM=true`** để build/upgrade/kill/leak **bỏ qua side-effect DOM/particle/audio** (nếu không, rebuild sheet + spawnParts mỗi lần làm sim treo → headless quá giờ → screenshot rỗng). Bot dở mà THẮNG hết với core giảm dần (15/20→5/20) = đường cong đẹp; thắng full hết = quá dễ; thua sớm = quá khó. Chạy lại sau mỗi lần đổi số.
+- **Snippet:** `let SIM=false; function spawnParts(...){ if(SIM) return; ...}` (+ guard updateHUD/openTowerSheet/pop/banner). `function _simMap(i){ SIM=true; startMap(i); while(!S.ended){ if(!S.waveActive){bot();S.interT=0;startWave();} step(1/30);} SIM=false; return {...} }`.
+- **Game:** `ion-towers`.
+
 ## 2026-06-05 · [audio][verify] Rhythm game: self-synced chart + cách test audio-clock game trong headless
 Rút từ build `beatfall` (4-lane synthwave rhythm tap, nhạc synth WebAudio).
 - **[audio] Self-sync "by construction":** sinh beatmap TỪ chính note-data của bài hát rồi lịch cả audio LẪN visual theo MỘT đồng hồ `AudioContext.currentTime`. Mỗi note: phát tiếng tại `hitTime`, ô rơi tới vạch đúng `hitTime` (spawn ở `hitTime - travelTime`). ⇒ không bao giờ lệch, không cần "chart tay" theo file mp3. Lịch audio bằng **lookahead scheduler** (mỗi ~25ms, đẩy event có `t < now + 0.12s`) — pattern "two clocks". Difficulty chỉ lọc subset note được chart (density) + đổi travelTime; nhạc nền (lead/bass/pad/drum) luôn phát đầy đủ nên bài luôn nghe trọn ở mọi mức.

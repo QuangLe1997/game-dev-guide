@@ -113,5 +113,6 @@ localStorage[K('wallet')] = S.wallet;
 localStorage[K('muted')]  = S.muted ? 1 : 0;
 ```
 
-## DOCS.md trong repo game (mẫu mục lục)
-Mỗi game nên có `DOCS.md`: bảng tính năng (trạng thái + chỗ sửa) · state machine · bảng `DIFF` · hệ điểm/combo · localStorage keys · lịch sử cập nhật. Tham khảo `neon-serpent-3d/docs.md` & `tank-shooter` (DOCS+LEVELS+config.js) làm mẫu chất lượng cao.
+## DOCS.md trong repo game (BẮT BUỘC)
+Mỗi game **phải** có `DOCS.md` theo khung chuẩn [`../templates/GAME-DOCS-template.md`](../templates/GAME-DOCS-template.md) — đọc là hiểu hết game không cần đọc code: §0 tính năng · §5 cấu trúc màn chơi · §6 cấu trúc độ khó · §7 hệ tính điểm · §14 số cân bằng (single source of truth) · §15 recipe (thêm màn/nâng khó/đổi điểm) · §16 history.
+**🔴 Doc phải luôn khớp code** — đổi tính năng/level/điểm là update DOCS trong cùng commit (xem [`GAME-DEV-GUIDE.md` §Tài liệu game bắt buộc](../GAME-DEV-GUIDE.md)). Mẫu chất lượng cao: `neon-serpent-3d/docs.md`, `tank-shooter` (DOCS+LEVELS+config.js).

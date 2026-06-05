@@ -68,8 +68,9 @@ VD: *"Drop fruits to merge same kinds into bigger ones, don't overflow the top."
 - **Score + combo:** điểm tức thì, combo nhân khi liên hoàn, popup nổi `+N`.
 - **Juice (bắt buộc):** particle, screen shake, số nảy, flash, haptic (mobile). Mọi hành động đều có phản hồi hình + âm.
 
-### 0.5 Mini design doc
-Tạo `DOCS.md` ngay trong repo game (không phải repo này) — bảng tính năng + state machine + hằng số cân bằng + localStorage keys. Mẫu: xem cấu trúc trong [`reference/game-mechanics.md`](reference/game-mechanics.md). Cập nhật mỗi khi đổi cơ chế.
+### 0.5 Tài liệu kỹ thuật `DOCS.md` (BẮT BUỘC — tạo NGAY từ đầu)
+Mỗi game **phải** có `DOCS.md` trong repo game của nó, copy từ [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md). Đây là tài liệu để **đọc là hiểu hết game mà không cần xem code** — đặc biệt §5 (cấu trúc màn chơi), §6 (cấu trúc độ khó), §7 (hệ tính điểm), §14 (số cân bằng), §15 (recipe nâng độ khó / thêm màn / đổi điểm).
+Tạo khung `DOCS.md` ngay ở Phase 1 (điền dần khi build). **Quy tắc đồng bộ:** xem [§Tài liệu game bắt buộc](#-tài-liệu-game-bắt-buộc-không-được-outdated) bên dưới — đổi tính năng/level/điểm là phải update DOCS trong **cùng commit**.
 
 ---
 
@@ -208,13 +209,43 @@ Rút ra bài học gì trong lúc build (bug khó, mẹo, bẫy tool)? → Ghi [
 
 ---
 
+## 📑 Tài liệu game bắt buộc (KHÔNG được outdated)
+
+> **Yêu cầu tối cao:** mỗi project game **phải** có một tài liệu kỹ thuật chuẩn để *đọc là hiểu hết game, không cần đọc code*. Người muốn nâng độ khó / thêm màn chơi / đổi cách tính điểm chỉ cần đọc tài liệu này là đủ.
+
+### Quy định
+1. **File `DOCS.md`** ở gốc repo game, theo đúng khung [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md). (Game lớn có thể tách thêm `LEVELS.md` cho §5/§6, nhưng `DOCS.md` luôn là cửa vào.)
+2. **Tạo từ đầu** (Phase 1, §0.5), điền dần khi build. Không để cuối dự án mới viết.
+3. **Phải bao gồm tối thiểu:**
+   - §0 Bảng trạng thái tính năng (+ chỗ sửa để grep)
+   - §5 **Cấu trúc màn chơi/level** — mô hình level, định nghĩa ở đâu, bảng các màn, tiến trình
+   - §6 **Cấu trúc độ khó** — bảng tham số từng mode + công thức ramp
+   - §7 **Hệ thống tính điểm** — công thức đầy đủ, combo/multiplier, record
+   - §14 **Số cân bằng** (single source of truth) — mọi con số gom 1 chỗ (`CONFIG`/`config.js`), không hardcode rải rác
+   - §15 **HOW-TO recipes** — thêm màn / nâng độ khó / đổi điểm / thêm power-up
+   - §16 Lịch sử cập nhật
+
+### 🔴 LUẬT ĐỒNG BỘ — doc không bao giờ lệch code
+- **Mỗi commit đổi tính năng / level / số cân bằng / cách tính điểm → PHẢI cập nhật `DOCS.md` trong CÙNG commit đó.** Code và doc đi cùng nhau.
+- **Doc outdated bị coi như bug.** Không merge/push nếu doc chưa khớp.
+- Đổi số balance → sửa ở **§14 CONFIG** rồi cập nhật bảng §5/§6/§7 tương ứng. Không sửa số rải rác trong code.
+- Mỗi lần ship lớn → thêm 1 dòng vào §16 + cập nhật dòng `Last updated`.
+- Khi review/verify (§8), **kiểm cả việc DOCS có khớp thực tế không** (đường cong khó, số màn, công thức điểm).
+
+> Tham khảo doc chất lượng cao: `neon-serpent-3d/docs.md` (bảng tính năng + state machine) · `tank-shooter` (DOCS.md + LEVELS.md + config.js tách riêng số balance).
+
+---
+
 ## ✅ Ship checklist (TL;DR — bám đúng thứ tự)
 
 ```
-[ ] 1. PLAN: core loop 1 câu · 2D/3D · tên + --accent mới · level/score/juice · DOCS.md
+[ ] 1. PLAN: core loop 1 câu · 2D/3D · tên + --accent mới · level/score/juice
+       → tạo khung DOCS.md từ templates/GAME-DOCS-template.md (§0.5)
 [ ] 2. BUILD index.html: tokens §1 + head §2, loop fixed-tick, input kép, juice, audio, UI, localStorage
+       → điền DOCS.md song song khi build (§5 level, §6 khó, §7 điểm, §14 CONFIG)
 [ ] 3. ART: gen key-art + og-card.jpg (1200×675) bằng media-tools §7
 [ ] 4. VERIFY §8: node --check + browser desktop 1280×800 & mobile 390×844 + 0 console error + chơi thử
+       → kiểm DOCS.md KHỚP code (số màn, đường cong khó, công thức điểm)
 [ ] 5. README.md §6 → tạo repo + push (HTTPS) §5 → bật GitHub Pages → verify live
 [ ] 6. ARCADE §8: thumbnail + card + bump count + README + push
 [ ] 7. Confirm 2 URL live (game + arcade)
@@ -238,6 +269,7 @@ Rút ra bài học gì trong lúc build (bug khó, mẹo, bẫy tool)? → Ghi [
 - [ ] `README.md` có Live link + "part of QUANG ARCADE".
 - [ ] Verify đã chạy (§8).
 - [ ] Đã gắn vào arcade hub (§8).
+- [ ] **`DOCS.md` đầy đủ & KHỚP code** (§0 tính năng · §5 level · §6 khó · §7 điểm · §14 CONFIG · §15 recipe · §16 history) — đọc là hiểu game không cần đọc code.
 - [ ] Bài học (nếu có) đã ghi vào LESSONS.md + push.
 
 ---

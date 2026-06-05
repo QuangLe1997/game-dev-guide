@@ -16,7 +16,8 @@
 | [`reference/audio.md`](reference/audio.md) | WebAudio synth SFX + nhạc nền, mute, iOS resume. |
 | [`reference/2d-vs-3d.md`](reference/2d-vs-3d.md) | Khi nào dùng 3D (Three.js) vs 2D (Canvas). |
 | [`reference/inventory.md`](reference/inventory.md) | Danh sách game hiện có + màu `--accent` đã dùng (để chọn màu mới). |
-| [`templates/`](templates/) | `<head>`, design tokens, README game, arcade card — copy-paste. |
+| [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md) | ⭐ Khung **tài liệu kỹ thuật bắt buộc** cho mỗi game (cấu trúc màn chơi/độ khó/điểm). |
+| [`templates/`](templates/) | `<head>`, README game, arcade card — copy-paste. |
 
 ## 🚀 Dùng thế nào (agent session mới)
 

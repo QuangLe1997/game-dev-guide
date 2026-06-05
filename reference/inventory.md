@@ -2,7 +2,7 @@
 
 > Cập nhật file này **sau mỗi game mới** (thêm dòng + đánh dấu màu đã dùng). Chọn `--accent` MỚI khác biệt cho game tiếp theo để arcade card không lẫn.
 
-## Games đang chạy (16 + hub)
+## Games đang chạy (17 + hub)
 
 | # | Game | `--accent` | Genre | Tech | Repo |
 |---|------|-----------|-------|------|------|
@@ -21,7 +21,8 @@
 | 13 | **ION TOWERS** | `#5be58a` | Path-based synthwave tower defense (8 maps, 3 towers, boss waves, OVERCHARGE) | Canvas 2D | `ion-towers` |
 | 14 | **SKYLINE STACK** | `#ff6b3d` | One-tap 3D tower stacker (slice overhang, PERFECT-streak heat: color+pitch+grow-back) | Three.js | `skyline-stack` |
 | 15 | **LEGION RUSH** | `#ff3344` | 3D neon crowd-multiplier runner (×/＋/− gates, %-cull hazards, barrier slam, 8 stages, no-loss streak) | Three.js | `legion-rush` |
-| 16 | **UMBRA** ⭐ | `#9b8cff` | 3D shadow-silhouette puzzle (rotate construct → cast shadow matches target via IoU; dual-light = 2 shadows at once, 15 levels, star rating) | Three.js | `umbra` |
+| 16 | **UMBRA** | `#9b8cff` | 3D shadow-silhouette puzzle (rotate construct → cast shadow matches target via IoU; dual-light = 2 shadows at once, 15 levels, star rating) | Three.js | `umbra` |
+| 17 | **COMET** ⭐ | `#8de1ff` | One-tap 3D orbit-slingshot flow arcade (hold=latch+orbit gravity well, release=tangent through goal ring; SEAMLESS endless chambers, FLOW slow-mo + score mult + bloom, pulsar/debris hazards) | Three.js | `comet` |
 | — | **QUANG ARCADE** (hub) | — | Showcase 1 trang | HTML/CSS | `arcade` |
 
 ## Màu accent ĐÃ DÙNG (tránh trùng)
@@ -41,14 +42,15 @@
 #5be58a  emerald green (ion towers)
 #ff6b3d  coral/red-orange (skyline stack)
 #ff3344  hot scarlet   (legion rush)
-#9b8cff  periwinkle    (umbra) ⭐ NEW
+#9b8cff  periwinkle    (umbra)
+#8de1ff  ice blue       (comet) ⭐ NEW
 ```
 
 ## Gợi ý màu accent CÒN TRỐNG (cho game mới)
 ```
-#8de1ff  ice blue
 #ffd24a  bright amber (khác overclock đủ?)
 #ff8da3  warm rose
+#7CFFB2  spring green
 ```
 
 ## URL pattern

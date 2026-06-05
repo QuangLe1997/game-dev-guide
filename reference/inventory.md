@@ -2,7 +2,7 @@
 
 > Cập nhật file này **sau mỗi game mới** (thêm dòng + đánh dấu màu đã dùng). Chọn `--accent` MỚI khác biệt cho game tiếp theo để arcade card không lẫn.
 
-## Games đang chạy (15 + hub)
+## Games đang chạy (16 + hub)
 
 | # | Game | `--accent` | Genre | Tech | Repo |
 |---|------|-----------|-------|------|------|
@@ -20,7 +20,8 @@
 | 12 | **BEATFALL** | `#ff4d6d` | Synthwave 4-lane rhythm tap (self-synced WebAudio chart, STROBE x2, S/A/B/C) | Canvas 2D | `beatfall` |
 | 13 | **ION TOWERS** | `#5be58a` | Path-based synthwave tower defense (8 maps, 3 towers, boss waves, OVERCHARGE) | Canvas 2D | `ion-towers` |
 | 14 | **SKYLINE STACK** | `#ff6b3d` | One-tap 3D tower stacker (slice overhang, PERFECT-streak heat: color+pitch+grow-back) | Three.js | `skyline-stack` |
-| 15 | **LEGION RUSH** ⭐ | `#ff3344` | 3D neon crowd-multiplier runner (×/＋/− gates, %-cull hazards, barrier slam, 8 stages, no-loss streak) | Three.js | `legion-rush` |
+| 15 | **LEGION RUSH** | `#ff3344` | 3D neon crowd-multiplier runner (×/＋/− gates, %-cull hazards, barrier slam, 8 stages, no-loss streak) | Three.js | `legion-rush` |
+| 16 | **UMBRA** ⭐ | `#9b8cff` | 3D shadow-silhouette puzzle (rotate construct → cast shadow matches target via IoU; dual-light = 2 shadows at once, 15 levels, star rating) | Three.js | `umbra` |
 | — | **QUANG ARCADE** (hub) | — | Showcase 1 trang | HTML/CSS | `arcade` |
 
 ## Màu accent ĐÃ DÙNG (tránh trùng)
@@ -39,7 +40,8 @@
 #ff4d6d  hot red       (beatfall)
 #5be58a  emerald green (ion towers)
 #ff6b3d  coral/red-orange (skyline stack)
-#ff3344  hot scarlet   (legion rush) ⭐ NEW
+#ff3344  hot scarlet   (legion rush)
+#9b8cff  periwinkle    (umbra) ⭐ NEW
 ```
 
 ## Gợi ý màu accent CÒN TRỐNG (cho game mới)
@@ -47,7 +49,6 @@
 #8de1ff  ice blue
 #ffd24a  bright amber (khác overclock đủ?)
 #ff8da3  warm rose
-#9b8cff  periwinkle
 ```
 
 ## URL pattern

@@ -67,11 +67,36 @@ background:linear-gradient(95deg,#ffd24a,#7fe0e0,#a78bfa,#ff5a8a);
 - **Body**: Space Grotesk 400–500.
 - `clamp()` cho mọi font lớn: `font-size:clamp(34px,9vw,104px)`.
 
-## Responsive (mobile + desktop)
-- **Vùng chơi = hero**: to nhất, trên cùng (mobile) hoặc bên trái (desktop). Cap `max-width:min(100%,70vh)`.
-- **Desktop**: cân nhắc 2 cột (vùng chơi | panel điều khiển) bằng CSS grid.
+## Responsive — MOBILE LÀ ƯU TIÊN SỐ 1 🥇
+
+> **Rule:** thiết kế cho **mobile portrait trước tiên, luôn luôn**. Desktop là phụ. Chọn 1 trong 2 chiến lược layout NGAY từ Phase PLAN (ghi vào `DOCS.md`):
+
+### Chiến lược A — "Mobile-frame" (mặc định, cho game KHÔNG cần view rộng)
+Game lưới/cột dọc/casual (puzzle, merge, bubble, snake, tetris…) **không cần màn rộng** → **đóng khung portrait** giữa màn hình desktop, letterbox 2 bên. Dùng **đúng một layout mobile** cho cả desktop & mobile → **khỏi làm responsive**.
+```css
+/* khung dọc kiểu điện thoại, canh giữa trên desktop, full trên mobile */
+#app{
+  width:100%;
+  max-width:min(100vw, 480px);     /* bề ngang tối đa kiểu phone */
+  height:100dvh; max-height:100dvh;
+  margin-inline:auto;              /* canh giữa desktop */
+  aspect-ratio:9/16;               /* (tuỳ chọn) ép tỉ lệ phone; bỏ nếu muốn full-height */
+  position:relative; overflow:hidden;
+}
+html,body{ height:100%; background:var(--bg); }
+body{ display:grid; place-items:center; }   /* letterbox: nền tràn, app ở giữa */
+```
+→ Mọi thứ dựng theo bề ngang `≤480px`; desktop chỉ thấy khung phone canh giữa. **Không cần breakpoint.**
+
+### Chiến lược B — "Responsive thật" (chỉ khi game CẦN view rộng)
+Game cần không gian ngang (twin-stick, tank, map rộng, 2 cột điều khiển…) → làm **responsive đúng nghĩa** HOẶC dev một layout **desktop tối ưu riêng**:
+- **Vùng chơi = hero**: to nhất, trên cùng (mobile) / bên trái (desktop). Cap `max-width:min(100%,70vh)`.
+- **Desktop**: 2 cột (vùng chơi | panel điều khiển) bằng CSS grid.
 - **Mobile**: stack 1 cột, control dưới vùng chơi (vừa tầm ngón cái).
-- Breakpoint hay dùng: `@media (max-width:860px)` (đổi 1 cột), `@media (max-width:560px)`.
+- Breakpoint: `@media (max-width:860px)` (đổi 1 cột), `@media (max-width:560px)`.
+- **Dù chọn B, vẫn build mobile trước**, desktop sau.
+
+> Quyết định A hay B = câu hỏi "game có cần bề ngang rộng để chơi tốt không?". Không chắc → chọn **A** (đỡ công, mobile-perfect ngay).
 - **Viewport game** (khoá zoom, cảm giác app):
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />

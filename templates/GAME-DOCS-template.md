@@ -52,6 +52,7 @@
 - **Thắng / Thua:** điều kiện thắng (nếu có) · điều kiện thua.
 - **Cảm giác mục tiêu (fantasy):** game muốn người chơi *cảm thấy* gì.
 - **2D hay 3D + vì sao:** …
+- **Layout (mobile ưu tiên #1):** [ ] A — Mobile-frame (khung portrait ≤480px, letterbox desktop, không responsive) · [ ] B — Responsive thật (game cần view rộng). Vì sao: …
 
 ## 2. Tech stack
 - Render: Canvas 2D / Three.js (r…). Build: zero-build, single `index.html` / `src/`.

@@ -87,7 +87,7 @@ Nếu sửa cả guide/reference thì add thêm đúng các file đó. **Không 
 
 1. Người dùng muốn game mới → mở [`GAME-DEV-GUIDE.md`](GAME-DEV-GUIDE.md), làm theo pipeline. **Bắt đầu bằng §0.0 RESEARCH** (genre/theme/story đang hot) để lấy context, rồi mới plan.
 2. Trước khi build, lướt [`LESSONS.md`](LESSONS.md) để né các bẫy đã biết.
-3. Build trong **repo riêng của game** (không build ở đây). Single `index.html`, zero-build, EN UI, mobile+desktop.
+3. Build trong **repo riêng của game** (không build ở đây). Single `index.html`, zero-build, EN UI. **🥇 Mobile portrait là ưu tiên #1 — build mobile trước.** Game không cần view rộng → đóng khung portrait canh giữa cho desktop (khỏi responsive); cần view rộng → responsive thật. (Rule: [`reference/design-system.md` §Responsive](reference/design-system.md).)
 4. Gen OG/banner bằng **media-tools MCP** (§7 guide). Đặt tên game + chọn `--accent` mới (xem [`reference/inventory.md`](reference/inventory.md)).
 5. Tạo repo + GitHub Pages → đăng ký vào **Arcade Hub**.
 6. Rút ra bài học gì → ghi [`LESSONS.md`](LESSONS.md) + commit + push repo này.

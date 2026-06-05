@@ -70,6 +70,12 @@ VD: *"Drop fruits to merge same kinds into bigger ones, don't overflow the top."
 - **2D (Canvas)**: tetris/bubble/merge/sliding/block puzzle — khi gameplay là lưới/vật lý 2D, cần FPS cao & nhẹ trên mobile.
 - **Mặc định nghiêng 3D nếu thể loại tận dụng được chiều sâu**; còn lại 2D Canvas cho gọn nhẹ.
 
+### 0.2b Chọn chiến lược LAYOUT (mobile ưu tiên #1) 🥇
+**Mobile portrait là ưu tiên số 1 — luôn build mobile trước.** Chốt 1 trong 2 (ghi vào `DOCS.md §1`):
+- **A — Mobile-frame (mặc định):** game **không cần view rộng** (puzzle/merge/bubble/snake/tetris…) → **đóng khung portrait** (`max-width ~480px`) canh giữa, letterbox trên desktop. Dùng **một layout mobile cho cả hai** → **khỏi làm responsive**.
+- **B — Responsive thật:** game **cần bề ngang rộng** (twin-stick/tank/map rộng/2 cột) → làm responsive đúng nghĩa hoặc dev layout desktop tối ưu riêng. **Vẫn build mobile trước.**
+- Không chắc → chọn **A**. Công thức CSS cho cả 2: [`reference/design-system.md` §Responsive](reference/design-system.md).
+
 ### 0.3 Đặt tên + màu accent
 - **Tên:** 1–2 từ tiếng Anh, mạnh, dễ nhớ, hợp thể loại (VD: NEON SERPENT, BRICK BLITZ, STEEL SIEGE). Tránh trùng tên game thương mại.
 - **`--accent`:** chọn **màu mới chưa dùng** — xem bảng đã dùng trong [`reference/inventory.md`](reference/inventory.md). Mỗi game một màu chủ đạo riêng để arcade card phân biệt.
@@ -95,7 +101,8 @@ Chi tiết đầy đủ (tokens, glass, typography, responsive): [`reference/des
 - 1 file `index.html` (asset trong `assets/`). Không framework, không bundler, không npm. JS thuần.
 - External resource duy nhất = **Google Fonts** (Orbitron + Space Grotesk) + Three.js CDN nếu 3D.
 - Nền **gradient-mesh** + panel **glassmorphism** + mỗi game một `--accent`.
-- `clamp()` cho mọi font lớn. Responsive mobile-first, vùng chơi là "hero".
+- `clamp()` cho mọi font lớn.
+- **🥇 MOBILE LÀ ƯU TIÊN SỐ 1** — luôn build mobile portrait trước, desktop sau (xem rule layout ở §0.2b + [`reference/design-system.md`](reference/design-system.md)).
 
 ### 2. `<head>` template
 Copy nguyên từ [`templates/head.html`](templates/head.html) — đã có đủ viewport khoá-zoom, OG/Twitter tags, favicon emoji, fonts.
@@ -285,7 +292,7 @@ Rút ra bài học gì trong lúc build (bug khó, mẹo, bẫy tool)? → Ghi [
 ## Definition of Done (game chỉ "xong" khi đủ hết)
 
 - [ ] Single `index.html`, zero-build, mở là chạy.
-- [ ] Responsive desktop (≥1280px) **và** mobile (390px). Vùng chơi là hero, không tràn.
+- [ ] **Mobile portrait (390px) hoàn hảo — ưu tiên #1.** Đã chốt chiến lược layout (A mobile-frame / B responsive) và ghi ở `DOCS.md §1`. Desktop: A = khung phone canh giữa letterbox · B = responsive/desktop tối ưu, không tràn.
 - [ ] Input kép: touch + keyboard/mouse.
 - [ ] UI **100% tiếng Anh** (không sót tiếng Việt — kể cả chữ HOA có dấu).
 - [ ] Style chuẩn: Orbitron+Space Grotesk, mesh bg, glass panel, `--accent` riêng.

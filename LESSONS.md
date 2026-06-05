@@ -19,6 +19,26 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-05 · [threejs][design] Stacker 3D: bloom làm màu khối "cháy trắng" · khung camera Stack · helper build-demo phải an toàn
+Rút từ build `skyline-stack` (one-tap 3D tower stacker kiểu "Stack").
+- **[threejs] Gradient màu khối bị wash thành TRẮNG khi bật bloom.** Muốn khối "nóng dần" theo combo nên ban đầu để `emissiveIntensity` cao (~0.5) + `UnrealBloom` + ACES tonemap + env IBL mạnh → mọi tone trung bình cháy ra trắng, mất sạch màu. ⇒ Giữ **emissive thấp (≤~0.25)**; "nóng" = **tăng saturation, GIẢM lightness** (đừng tăng lightness), KHÔNG tăng emissive. Hạ `scene.environmentIntensity` (~0.4) để PMREM khỏi làm nhạt khối. Hiệu ứng "màn hình nóng lên" tách ra **1 lớp DOM overlay `mix-blend-mode:screen`** (opacity theo streak) thay vì nhồi vào pipeline 3D — rẻ, chắc, không đụng alpha/bloom. Snippet màu: `color.setHSL(h, 0.62+heat*0.33, 0.55-heat*0.05)`.
+- **[design] Khung camera Stack:** cho khối trượt **dao động quanh tâm (x/z=0)** và camera = **offset CỐ ĐỊNH chỉ bám `top.Y`** (lerp). Tháp tự ở giữa khung (drift ngang bị cơ chế cắt kéo về) → khỏi cho camera đuổi ngang. `lookAhead` để **ÂM** (nhìn hơi DƯỚI đỉnh) đẩy đỉnh lên ~1/3 trên, chừa headroom cho khối tới mà không thừa trời. `AMP` (biên trượt) ≈ bề rộng khối: đủ để tap sai thời điểm vẫn trượt hụt cả khối đầy (công bằng) mà khối vẫn trong khung.
+- **[perf] Khối dùng CHUNG 1 `BoxGeometry(1,1,1)` + `mesh.scale(sx,h,sz)`** thay vì geometry mới mỗi block → nhẹ RAM, dispose chỉ cần `material.dispose()`. Cull + dispose material các block dưới tầm nhìn (giữ ~16) để không rò GPU mem khi tháp cao vô tận.
+- **[verify] Helper `_build(n)` (dựng nhanh tháp để chụp) phải KHÔNG game-over giữa chừng.** Trim ngẫu nhiên tích lũy có thể đẩy overlap < ngưỡng miss trước khi đủ n → ảnh "tháp cao" hoá ra game-over. ⇒ Cap |delta| theo footprint hiện tại + ép perfect khi mỏng. Bẫy phụ: trim có `|delta| < PERFECT_EPS` **âm thầm tính là PERFECT** (không đứt streak) → muốn tháp demo "tự nhiên" nhiều màu thì delta phải > ngưỡng perfect.
+- **Game:** skyline-stack.
+
+## 2026-06-05 · [verify][threejs] Chụp evidence game WebGL bằng headless Chrome cần cờ SwiftShader + dẹp spam console `navigator.vibrate`
+- **[threejs] Headless Chrome chụp Three.js ra ĐEN/fail GL nếu không bật software GL.** Game canvas-2D không sao, nhưng WebGL cần cờ. ⇒ puppeteer-core launch kèm `--enable-unsafe-swiftshader --use-gl=angle --use-angle=swiftshader --ignore-gpu-blocklist` (+ `--no-sandbox --disable-dev-shm-usage`). Probe `cv.getContext('webgl2') && window._S.engineReady` để chắc đã render thật rồi mới `screenshot`. (Dùng puppeteer `setViewport({isMobile:true})` cho mobile — device-emulation TÔN TRỌNG `meta width=device-width`, né bẫy CLI `--window-size` báo `innerWidth` sai ở entry ion-towers.)
+- **[verify] `navigator.vibrate` bị Chrome log như CONSOLE ERROR khi chưa có user-gesture.** Lái game qua hook `?shot=`/`_build` (không chạm thật) làm mỗi lần haptic in `Blocked call to navigator.vibrate...` → "30 console errors" GIẢ làm hỏng tiêu chí "0 error". ⇒ Gate haptic sau cờ `gestured` (set ở `pointerdown/keydown` thật): vừa đúng hành vi (vibrate chỉ chạy sau gesture) vừa cho evidence 0 error.
+- **[verify] Reuse node_modules harness có sẵn:** đặt script chụp NGAY trong thư mục đã có `puppeteer-core` (vd `.qa-harness/`) để bare-import resolve được, ghi PNG sang `tests/_raw` của game rồi downsize System.Drawing → `tests/screenshots`. Khỏi cài lại puppeteer ~300MB mỗi game.
+- **Game:** skyline-stack.
+
+## 2026-06-05 · [verify][arcade] Snapshot file của sub-agent (Explore) có thể CŨ — re-grep LIVE trước khi sửa file dùng chung
+- **Triệu chứng:** Sub-agent Explore báo arcade đang **11** game (badge ★ Newest ở OVERCLOCK) + 2 màu còn trống; thực tế arcade LIVE đã **13** game (`#ff4d6d`, `#5be58a` đã dùng), Newest ở ION TOWERS.
+- **Nguyên nhân:** Output của agent/Read là ảnh chụp tại thời điểm đọc; tới lúc EDIT thì đã lệch.
+- **Cách xử lý:** Trước khi sửa **số đếm / marker** trong file dùng chung (arcade `index.html`, `inventory.md`): **grep LIVE lại** lấy giá trị + dòng chính xác (số game, card đang giữ `★ Newest`, accent đã dùng, `num` lớn nhất). Mình tránh vỡ nhờ grep `Newest|num"|card"` ngay trước khi chèn card #14 + dời badge. Đừng tin số đếm từ snapshot cũ.
+- **Game:** skyline-stack.
+
 ## 2026-06-05 · [verify][mobile] Headless Chrome dựng mobile-frame ở 480px → ảnh evidence "tràn nút" GIẢ ở cửa sổ 390
 - **Triệu chứng:** Build sheet (hàng 3 nút tower flex) bị **cắt nút thứ 3** chỉ khi chụp `--window-size=390,844`; ở 480 thì vừa khít. Tưởng vỡ layout mobile.
 - **Nguyên nhân:** Headless Chrome (CLI, không bật device-emulation qua DevTools) **KHÔNG tôn trọng `<meta width=device-width>`** → `innerWidth`/`100vw` báo ~**484** dù cửa sổ 390 (đo bằng probe `getComputedStyle(body).width`). App dùng `width:min(100vw,480px)` → ra **480**, nhồi vào cửa sổ 390 → cắt mép phải. Trên điện thoại thật `100vw=390` nên app=390, KHÔNG tràn. Đây là **artifact headless**, không phải bug.

@@ -19,6 +19,12 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-04 · [design] `all:unset` trên button reset `box-sizing` → nút tràn ra ngoài card
+- **Triệu chứng:** Nút trong dialog (Play/Resume/Play Again…) và card upgrade **lòi ~7px ra khỏi panel** ở mép phải, dù `width:100%` + panel có padding.
+- **Nguyên nhân:** `*{box-sizing:border-box}` ở global, nhưng `.btn{ all:unset }` (pattern của starter) **reset MỌI property về initial**, gồm `box-sizing` → quay lại `content-box`. Khi đó `width:100%` (= content) **cộng thêm** `padding:15px` → tổng rộng hơn vùng trong panel ~28px, tràn mép.
+- **Cách xử lý:** Sau `all:unset` luôn set lại `box-sizing:border-box` (và `width:100%` nếu cần) cho element đó: `.btn, .up, .icons button{ box-sizing:border-box }`. Đo bằng `getBoundingClientRect()` (btn.right vs panel.right) để chắc 0px overflow, đừng chỉ nhìn.
+- **Game:** `pulse-survivor` (starter dùng `all:unset` cho .btn nên dính chung — đáng vá ở starter).
+
 ## 2026-06-04 · [verify][design] Chụp screenshot xong PHẢI soi vỡ layout, không chỉ "tính năng có hiện"
 - **Triệu chứng:** Test `pulse-survivor` bằng screenshot, mọi state "PASS" vì mình chỉ check *tính năng có render không*. User mở ra thấy **vỡ layout quá trời**: chữ trong card level-up dính liền ("Fire Rate +22%Shoot faster"), HUD (score/timer + thanh HP/XP/OD ở đáy) **lòi xuyên qua** mọi overlay (menu/level-up/pause/gameover) bị cắt nham nhở ở mép.
 - **Nguyên nhân:** Functional-correct ≠ visually-correct. `<span>` cho name/desc không `display:block` → dính dòng. `#hud` luôn hiện (inset:0) → lộ sau panel. Mình bỏ qua bước soi layout.

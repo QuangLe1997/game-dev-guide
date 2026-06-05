@@ -19,6 +19,19 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-04 · [verify][design] Puzzle level-based: PHẢI có solver verify solvable + win-check phải cho phép bình rỗng
+- **Triệu chứng:** Game water-sort (PRISM POUR) "code chạy, render đẹp" nhưng **không bao giờ thắng** — không hiện màn complete. Tuyên bố DONE hớ vì chưa từng chơi thắng thật (browser cache còn hiện game cũ).
+- **Nguyên nhân (2 lỗi chết người):** (1) **Level không giải được**: water-sort yêu cầu **mỗi màu xuất hiện đúng `capacity` (vd 4) lần** thì mới gom đầy 1 bình; mảng LEVELS viết tay số lượng màu tùy tiện (màu chỉ có 2 unit) → vô nghiệm. (2) **Win-check sai**: `tubes.every(isSolvedTube)` coi **bình rỗng = chưa xong** nên kể cả giải đúng cũng không trigger (giải xong luôn còn bình rỗng). Đúng: `every(t => t.length===0 || isSolvedTube(t))`.
+- **Cách xử lý:** Với MỌI game puzzle level-based (sort/match/sokoban…), **viết generator + solver (BFS/A*) chạy lúc build** để: (a) verify từng level solvable, (b) tính **optimal moves chính xác** cho star-rating công bằng. Thêm `tools/verify.mjs` **replay lời giải qua chính game-logic** rồi assert win + assert invariant (mỗi màu ≡0 mod capacity). 20/20 PASS mới ship. Đừng tin "code chạy" — phải chơi-thắng-thật + harness chứng minh.
+- **Snippet:** A* heuristic cho water-sort: `h = (#color-segments) − (#distinct colors)` (admissible, lower-bound số pour còn lại) → đủ nhanh tới 7 màu/9 bình. PRISM/wildcard: `effMatch=(a,b)=>a===b||a==='*'||b==='*'`; solved = full & (bỏ '*' ra còn ≤1 màu).
+- **Game:** prism-pour.
+
+## 2026-06-04 · [verify] MCP browser bị sandbox → chụp evidence bằng headless Chrome cục bộ + hook `?shot=`
+- **Triệu chứng:** Cần screenshot bằng chứng nhưng `mcp__*__computer screenshot save_to_disk` **không trả path vào FS của mình**, và Chrome do MCP điều khiển **không vào được `localhost`** (instance remote/sandbox) → ảnh không commit được vào repo.
+- **Nguyên nhân:** Chrome của MCP chạy ở môi trường tách biệt với Bash tool; localhost & filesystem không bắc cầu.
+- **Cách xử lý:** Dùng **headless Chrome cục bộ** (chrome.exe có sẵn) chụp chính server `localhost` của mình → PNG vào FS, rồi PIL downsize → `tests/screenshots/`. Thêm **hook vô hại `?shot=scene[:level]`** vào game để headless tự lái tới state cần chụp (menu/play/sel/pause/win/select). Cờ chuẩn: `--headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=480,940 --virtual-time-budget=2800 --screenshot=out.png "URL?shot=win:1"`. Lưu ý: **đừng** đặt `--force-device-scale-factor=2` với window nhỏ (viewport CSS bị chia đôi → panel tràn); để scale=1 và width = bề rộng app (480).
+- **Game:** prism-pour.
+
 ## 2026-06-04 · [design] `all:unset` trên button reset `box-sizing` → nút tràn ra ngoài card
 - **Triệu chứng:** Nút trong dialog (Play/Resume/Play Again…) và card upgrade **lòi ~7px ra khỏi panel** ở mép phải, dù `width:100%` + panel có padding.
 - **Nguyên nhân:** `*{box-sizing:border-box}` ở global, nhưng `.btn{ all:unset }` (pattern của starter) **reset MỌI property về initial**, gồm `box-sizing` → quay lại `content-box`. Khi đó `width:100%` (= content) **cộng thêm** `padding:15px` → tổng rộng hơn vùng trong panel ~28px, tràn mép.

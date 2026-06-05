@@ -19,6 +19,20 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-04 · [verify] Stale `http.server` trên cổng dùng chung → test NHẦM game khác
+- **Triệu chứng:** Headless Chrome mở `localhost:8773`, mọi screenshot ra… **PRISM POUR** chứ không phải game đang build. `document.querySelector('#coreZone')` trả `null`, `document.title` = tên game khác. Tưởng DOM vỡ / service worker hỏng, mò gần 20 phút.
+- **Nguyên nhân:** Một `python -m http.server 8773` của phiên build game **trước** vẫn còn chạy, serve thư mục game cũ. Lệnh `http.server 8773` mới **không bind được** (cổng bận) nhưng fail im lặng trong background → `curl` vẫn 200 (từ server cũ). Cổng "đời cha để lại".
+- **Cách xử lý:** (1) Verify server bằng **title/marker**, không chỉ HTTP 200: `curl -s localhost:PORT | grep '<title>'` phải khớp game của mình. (2) Mỗi game dùng **cổng riêng/độc nhất** hoặc kill server cũ trước. (3) Khi DOM "thiếu element" mà code đúng → nghi serve nhầm nguồn TRƯỚC khi nghi code.
+- **Game:** `overclock`.
+
+## 2026-06-04 · [design][perf] Idle/clicker: list mua đồ KHÔNG được rebuild `innerHTML` mỗi frame + lớp UI đừng đè tap-target
+Rút từ build `overclock` (active-idle reactor). Một bản nháp trước đó dính cả 4 lỗi sau — đáng né ngay:
+- **[perf] `list.innerHTML = …` trong vòng render 60fps = giết scroll + click.** Generator list dựng lại mỗi tick → `scrollTop` reset về 0 mỗi frame (không cuộn nổi trên mobile), phần tử bị thay liên tục nên tap "trượt". ⇒ **Dựng DOM 1 lần** (`buildGenList()`), giữ ref tới các `<span>` động, mỗi ~0.2s chỉ **cập nhật textContent + toggle class** (`refreshGenList()`).
+- **[design] Lớp tương tác (list) đè lên tap-target (core) = không tap được core.** Canvas core vẽ ở `y≈140` nhưng `#genList{inset; pointer-events:auto}` phủ lên trên → mọi cú chạm "core" bị list nuốt. ⇒ Tách **vùng riêng** bằng layout cột flex: `#coreZone` (cao cố định) TRÊN, `#genList` (flex:1, scroll) DƯỚI — không chồng nhau.
+- **[design] Cơ chế lõi (prestige) phải có NÚT rõ ràng, đừng giấu sau keybind.** Bản nháp chỉ cho prestige qua phím `L` với điều kiện mâu thuẫn (`prestigeCount>0` nên không bao giờ prestige được lần đầu) → tính năng lõi **bất khả thi** mà vẫn "trông như có". ⇒ Luôn có UI thấy được (thanh **Ascend** + nút `+N 🔥`). Chơi thật end-to-end mới lộ.
+- **[design] Số nhỏ <1 đừng floor về "0".** `0.2/sec` floor ra `0` nhìn như sinh năng lượng = 0. ⇒ `formatRate()` riêng giữ 1 chữ số thập phân khi <10 (HUD energy vẫn floor cho sạch). Big-number suffix mở rộng K…Dc rồi rơi về `toExponential`.
+- **Game:** `overclock`.
+
 ## 2026-06-04 · [verify][design] Puzzle level-based: PHẢI có solver verify solvable + win-check phải cho phép bình rỗng
 - **Triệu chứng:** Game water-sort (PRISM POUR) "code chạy, render đẹp" nhưng **không bao giờ thắng** — không hiện màn complete. Tuyên bố DONE hớ vì chưa từng chơi thắng thật (browser cache còn hiện game cũ).
 - **Nguyên nhân (2 lỗi chết người):** (1) **Level không giải được**: water-sort yêu cầu **mỗi màu xuất hiện đúng `capacity` (vd 4) lần** thì mới gom đầy 1 bình; mảng LEVELS viết tay số lượng màu tùy tiện (màu chỉ có 2 unit) → vô nghiệm. (2) **Win-check sai**: `tubes.every(isSolvedTube)` coi **bình rỗng = chưa xong** nên kể cả giải đúng cũng không trigger (giải xong luôn còn bình rỗng). Đúng: `every(t => t.length===0 || isSolvedTube(t))`.

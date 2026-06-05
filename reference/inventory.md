@@ -2,7 +2,7 @@
 
 > Cập nhật file này **sau mỗi game mới** (thêm dòng + đánh dấu màu đã dùng). Chọn `--accent` MỚI khác biệt cho game tiếp theo để arcade card không lẫn.
 
-## Games đang chạy (10 + hub)
+## Games đang chạy (11 + hub)
 
 | # | Game | `--accent` | Genre | Tech | Repo |
 |---|------|-----------|-------|------|------|
@@ -15,7 +15,8 @@
 | 07 | **BLOCK BLAST** | `#54d6b2` | Neon 8×8 block puzzle | Canvas 2D | `block-blast` |
 | 08 | **TRIPLE MATCH 3D** | `#7fe0c0` | 3D tile-match (match-3) | Three.js | `triple-tile` |
 | 09 | **PRISM POUR** | `#39e0c8` | Water sort puzzle (20 levels, star rating) | Canvas 2D | `prism-pour` |
-| 10 | **PULSE SURVIVOR** ⭐ | `#c77dff` | Top-down survivors-like / bullet-heaven (auto-fire + OVERDRIVE) | Canvas 2D | `pulse-survivor` |
+| 10 | **PULSE SURVIVOR** | `#c77dff` | Top-down survivors-like / bullet-heaven (auto-fire + OVERDRIVE) | Canvas 2D | `pulse-survivor` |
+| 11 | **OVERCLOCK** ⭐ | `#f0d24a` | Active-idle energy-reactor clicker (tap core, generators, SURGE, prestige) | Canvas 2D + DOM | `overclock` |
 | — | **QUANG ARCADE** (hub) | — | Showcase 1 trang | HTML/CSS | `arcade` |
 
 ## Màu accent ĐÃ DÙNG (tránh trùng)
@@ -29,7 +30,8 @@
 #54d6b2  mint green   (block)
 #7fe0c0  sea green    (triple)
 #39e0c8  teal         (prism pour)
-#c77dff  violet       (pulse survivor) ⭐ NEW
+#c77dff  violet       (pulse survivor)
+#f0d24a  bright yellow (overclock) ⭐ NEW
 ```
 
 ## Gợi ý màu accent CÒN TRỐNG (cho game mới)
@@ -37,7 +39,6 @@
 #5be58a  emerald green
 #ff6b3d  coral/red-orange
 #8de1ff  ice blue
-#f0d24a  bright yellow
 #ff4d6d  hot red
 ```
 

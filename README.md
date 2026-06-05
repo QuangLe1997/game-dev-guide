@@ -11,6 +11,7 @@
 | [`CLAUDE.md`](CLAUDE.md) | **Auto-read** mỗi session. Workflow + git safety + luật ghi bài học. Đọc đầu tiên. |
 | [`GAME-DEV-GUIDE.md`](GAME-DEV-GUIDE.md) | ⭐ Pipeline A→Z: plan → build → gen ảnh → verify → repo + Pages → arcade. |
 | [`LESSONS.md`](LESSONS.md) | ⭐ Bài học/bẫy đã gặp. Đọc trước khi build; ghi thêm sau khi build → commit + push. |
+| [`reference/market-research.md`](reference/market-research.md) | Bước 0: research genre/theme/style/story đang hot trước khi plan. |
 | [`reference/design-system.md`](reference/design-system.md) | Màu / font / glassmorphism / responsive (copy-paste tokens). |
 | [`reference/game-mechanics.md`](reference/game-mechanics.md) | Game loop, level/difficulty, score/combo, juice, state machine. |
 | [`reference/audio.md`](reference/audio.md) | WebAudio synth SFX + nhạc nền, mute, iOS resume. |

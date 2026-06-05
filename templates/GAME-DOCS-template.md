@@ -36,6 +36,17 @@
 ---
 
 ## 1. Tổng quan & Concept
+
+### Market context (research §0.0 — điền từ đầu)
+<!-- Insight thị trường dẫn tới game này. Xem reference/market-research.md. -->
+**Research (YYYY-MM-DD):**
+- Genre hot: … (nguồn …)
+- Theme/style hot: … → chọn …
+- Story/vibe: …
+- Đối thủ: <game A> mạnh …, thiếu … → khe hở: …
+**Hook:** "…" (một câu định vị game khác/ngon hơn đối thủ ở đâu)
+
+### Concept
 - **Thể loại:** …
 - **Core loop (1 câu):** "Người chơi [hành động] để [mục tiêu], càng [tiến triển] càng [khó]."
 - **Thắng / Thua:** điều kiện thắng (nếu có) · điều kiện thua.

@@ -14,6 +14,8 @@
 
 ```
 ┌─ PHASE 1: PLAN ──────────────────────────────────────────────┐
+│ 0.0 RESEARCH thị trường: genre/theme/style/story đang hot    │
+│     → reference/market-research.md (context cho mọi quyết định)│
 │ 0.1 Chốt thể loại + cơ chế lõi (1 câu "core loop")           │
 │ 0.2 Quyết 2D hay 3D  → reference/2d-vs-3d.md                 │
 │ 0.3 Đặt tên game + chọn --accent mới  → reference/inventory   │
@@ -45,6 +47,17 @@
 ---
 
 ## PHASE 1 — PLAN (tự lập kế hoạch)
+
+### 0.0 RESEARCH thị trường (LÀM ĐẦU TIÊN — lấy context cho cả plan)
+**Trước khi chốt bất cứ thứ gì**, dành một lượt research nhanh để game bám trend, không làm "trong chân không". Chi tiết nguồn + cách làm: [`reference/market-research.md`](reference/market-research.md).
+Cần trả lời 4 câu:
+1. **Genre/cơ chế nào đang hot** ở mảng web/H5 casual (CrazyGames/Poki/itch.io, app store casual, xu hướng .io/merge/idle/roguelite…)?
+2. **Theme/art style nào đang hot** (vd neon/synthwave, cozy pastel, low-poly, pixel, Y2K, dark fantasy…) — chọn cái hợp arcade-neon của hệ + còn mới mẻ.
+3. **Story/setting/IP-vibe nào đang viral** (không vi phạm bản quyền — chỉ lấy *vibe*, vd "space survivor", "brainrot", "dungeon merge"…).
+4. **Đối thủ gần nhất** với ý tưởng: họ làm tốt gì, thiếu gì → khe hở mình khai thác.
+- Dùng **WebSearch/WebFetch** (hoặc skill `deep-research` nếu cần sâu). Ưu tiên nguồn 6–12 tháng gần đây.
+- **Output:** 3–6 gạch đầu dòng insight + 1 câu "góc tiếp cận" (hook) cho game này. **Ghi vào `DOCS.md §1` (Market context)** để lưu vết — quyết định genre/theme/tên/màu/story ở §0.1–0.4 phải tham chiếu insight này.
+> ⚠️ Research để lấy *cảm hứng & khe hở*, KHÔNG copy. Không nhái tên/asset/nhân vật có bản quyền — chỉ học pattern & vibe.
 
 ### 0.1 Chốt core loop
 Viết **một câu** mô tả vòng lặp cốt lõi: *"Người chơi [hành động] để [mục tiêu], càng [tiến triển] càng [thử thách tăng]."*
@@ -251,7 +264,8 @@ Rút ra bài học gì trong lúc build (bug khó, mẹo, bẫy tool)? → Ghi [
 ## ✅ Ship checklist (TL;DR — bám đúng thứ tự)
 
 ```
-[ ] 1. PLAN: core loop 1 câu · 2D/3D · tên + --accent mới · level/score/juice
+[ ] 0. RESEARCH §0.0: genre/theme/style/story đang hot + đối thủ → 3-6 insight + 1 hook → DOCS §1
+[ ] 1. PLAN: core loop 1 câu · 2D/3D · tên + --accent mới · level/score/juice (bám insight §0)
        → tạo khung DOCS.md từ templates/GAME-DOCS-template.md (§0.5)
 [ ] 2. BUILD index.html: tokens §1 + head §2, loop fixed-tick, input kép, juice, audio, UI, localStorage
        → điền DOCS.md song song khi build (§5 level, §6 khó, §7 điểm, §14 CONFIG)

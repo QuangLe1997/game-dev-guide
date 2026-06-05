@@ -45,6 +45,7 @@
 | Cần gì | Đọc file |
 |---|---|
 | **Pipeline A→Z** (plan → build → ship → arcade) | [`GAME-DEV-GUIDE.md`](GAME-DEV-GUIDE.md) ⭐ |
+| Research thị trường (bước 0 trước khi plan) | [`reference/market-research.md`](reference/market-research.md) |
 | **Khung tài liệu kỹ thuật bắt buộc cho mỗi game** | [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md) ⭐ |
 | **Luồng tự test + bằng chứng screenshot → DONE** | [`reference/testing-and-evidence.md`](reference/testing-and-evidence.md) ⭐ |
 | Bài học / lỗi đã gặp / mẹo (đọc TRƯỚC khi build) | [`LESSONS.md`](LESSONS.md) ⭐ |
@@ -84,7 +85,7 @@ Nếu sửa cả guide/reference thì add thêm đúng các file đó. **Không 
 
 ## 5. TL;DR cho session mới (đọc 20 giây là chạy được)
 
-1. Người dùng muốn game mới → mở [`GAME-DEV-GUIDE.md`](GAME-DEV-GUIDE.md), làm theo pipeline §0→§9.
+1. Người dùng muốn game mới → mở [`GAME-DEV-GUIDE.md`](GAME-DEV-GUIDE.md), làm theo pipeline. **Bắt đầu bằng §0.0 RESEARCH** (genre/theme/story đang hot) để lấy context, rồi mới plan.
 2. Trước khi build, lướt [`LESSONS.md`](LESSONS.md) để né các bẫy đã biết.
 3. Build trong **repo riêng của game** (không build ở đây). Single `index.html`, zero-build, EN UI, mobile+desktop.
 4. Gen OG/banner bằng **media-tools MCP** (§7 guide). Đặt tên game + chọn `--accent` mới (xem [`reference/inventory.md`](reference/inventory.md)).

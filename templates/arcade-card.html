@@ -1,0 +1,25 @@
+<!-- ============================================================
+  TEMPLATE arcade card — paste vào <main class="grid"> trong arcade/index.html
+  ⚠️ CHỈ HTML TĨNH (security hook chặn innerHTML/JS templating).
+  Thay: #XXXXXX (accent mới) · <repo> · GAME NAME · num (2 chữ số) · sub · desc · tags.
+  ➜ Nhớ GỠ <span class="badge">★ Newest</span> ở card cũ trước đó (chỉ 1 game Newest).
+  ➜ Thumbnail: arcade/assets/<repo>.jpeg (~16:10, ~800px, object-fit:cover).
+  ============================================================ -->
+<a class="card" style="--accent:#XXXXXX" href="https://quangle1997.github.io/<repo>/" target="_blank" rel="noopener" aria-label="Play GAME NAME">
+  <div class="thumb">
+    <span class="badge">★ Newest</span>          <!-- chỉ card mới nhất giữ badge này -->
+    <span class="num">0N</span>                    <!-- số thứ tự 2 chữ số -->
+    <img src="assets/<repo>.jpeg" alt="GAME NAME screenshot" loading="lazy" />
+  </div>
+  <div class="meta">
+    <div class="gtitle"><span class="dot"></span>GAME NAME</div>
+    <div class="gsub">Short genre line</div>
+    <p class="gdesc">2–3 câu mô tả hấp dẫn, đúng giọng quảng cáo (English).</p>
+    <div class="tags"><span class="tag">Tag1</span><span class="tag">Tag2</span><span class="tag">Tag3</span></div>
+    <span class="play">▶ Play Now</span>
+  </div>
+</a>
+
+<!-- Sau khi thêm card, BUMP số game trong arcade/index.html:
+     <title>, <meta description>, og:*, twitter:*, hero .sub, chip <span class="chip"><b>N</b> Games</span>
+     và bảng Games trong arcade/README.md. -->

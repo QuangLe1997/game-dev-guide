@@ -20,7 +20,7 @@
 
 1. **Tự chủ — không hỏi xác nhận từng bước.** Hệ game này để thử nghiệm + chơi vui. Gặp lựa chọn (kỹ thuật / thiết kế / thư viện / tên game / màu) → **tự chọn phương án tối ưu** rồi làm luôn. Chỉ hỏi khi bế tắc thật sự hoặc mâu thuẫn không tự giải được.
 2. **Làm xong feature nào → commit + push NGAY.** Mỗi tính năng = 1 commit riêng, push thẳng `main` (GitHub Pages auto-deploy). Không gom dồn.
-3. **Verify trước khi push** (xem [`GAME-DEV-GUIDE.md` §4.3](GAME-DEV-GUIDE.md)): `node --check` cú pháp + chạy thử HTTP server + 0 console error (desktop 1280×800 & mobile 390×844).
+3. **Verify trước khi push**: `node --check` cú pháp + chạy thử HTTP server + 0 console error (desktop 1280×800 & mobile 390×844). **Game chỉ được tuyên bố DONE** khi đã tự test phủ mọi level/item/logic + lưu screenshot bằng chứng (downsize) vào `tests/screenshots/` + `tests/TEST-REPORT.md` verdict PASS, commit chung code (xem [`reference/testing-and-evidence.md`](reference/testing-and-evidence.md)). Không "tuyên bố pass" chỉ vì code chạy — phải có ảnh + report.
 4. **Mỗi game PHẢI có `DOCS.md`** (tài liệu kỹ thuật — đọc là hiểu hết game không cần đọc code: cấu trúc màn chơi, độ khó, tính điểm, số cân bằng, recipe). Khung chuẩn: [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md). Tạo từ đầu dự án.
 5. **🔴 LUẬT ĐỒNG BỘ DOC:** mỗi commit đổi tính năng / level / độ khó / cách tính điểm → **cập nhật `DOCS.md` trong CÙNG commit**. Doc outdated = bug, không push. (Chi tiết: [`GAME-DEV-GUIDE.md` §Tài liệu game bắt buộc](GAME-DEV-GUIDE.md).)
 6. **Cập nhật tri thức chung:** rút ra bài học chung → [`LESSONS.md`](LESSONS.md) của repo này (xem §4 dưới).
@@ -46,6 +46,7 @@
 |---|---|
 | **Pipeline A→Z** (plan → build → ship → arcade) | [`GAME-DEV-GUIDE.md`](GAME-DEV-GUIDE.md) ⭐ |
 | **Khung tài liệu kỹ thuật bắt buộc cho mỗi game** | [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md) ⭐ |
+| **Luồng tự test + bằng chứng screenshot → DONE** | [`reference/testing-and-evidence.md`](reference/testing-and-evidence.md) ⭐ |
 | Bài học / lỗi đã gặp / mẹo (đọc TRƯỚC khi build) | [`LESSONS.md`](LESSONS.md) ⭐ |
 | Design system chi tiết (màu/font/glass) | [`reference/design-system.md`](reference/design-system.md) |
 | Cơ chế game (loop, level, score, juice) | [`reference/game-mechanics.md`](reference/game-mechanics.md) |

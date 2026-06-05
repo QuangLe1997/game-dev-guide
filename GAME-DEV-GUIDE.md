@@ -132,6 +132,18 @@ Copy nguyên từ [`templates/head.html`](templates/head.html) — đã có đ�
 3. **Browser test** (Playwright MCP hoặc Chrome MCP nếu có): navigate, chụp **desktop 1280×800** + **mobile 390×844**, kiểm layout + **console error = 0** (favicon 404 bỏ qua).
 4. **Functional**: chơi thật qua UI (không gọi hàm tắt) — 1 lượt, đổi setting, win/lose, reload còn nhớ record. Mobile: kiểm touch không bị tap-leak, audio resume sau chạm.
 
+### 8b. TEST EVIDENCE — chụp bằng chứng + tuyên bố DONE (BẮT BUỘC)
+
+> Game **chỉ được tuyên bố DONE** khi đã tự test phủ **mọi màn chơi / item / logic quan trọng**, lưu screenshot (downsize) làm bằng chứng, và ghi report. Luồng đầy đủ: [`reference/testing-and-evidence.md`](reference/testing-and-evidence.md).
+
+Tóm tắt:
+1. Lái game qua **ma trận test** (mọi level/milestone · mọi power-up/item · scoring/combo · level-up · game-over · persist sau reload · mobile + desktop). Dùng `window._*` để ép state khó tái hiện khi cần, nhưng phải có ≥1 lượt chơi thật end-to-end.
+2. Chụp mỗi state → **downsize** (JPG, rộng ≤640px, ~70%, <~80KB/ảnh) → lưu `tests/screenshots/` (tên `NN-mô-tả-[d|m].jpg`).
+3. Ghi `tests/TEST-REPORT.md` từ [`templates/TEST-REPORT-template.md`](templates/TEST-REPORT-template.md): mỗi test case 1 dòng + ảnh + ✅/❌ + verdict.
+4. Có FAIL → sửa (cập nhật DOCS nếu cần) → lặp lại đúng mục đó.
+5. 100% PASS → **commit `tests/` chung với code** (bằng chứng test case đã pass) → mới tuyên bố DONE.
+6. Báo cho người dùng kèm **số liệu thật**: vd *"DONE — 22/22 PASS, 18 ảnh evidence, 0 console error, đã push."*
+
 ---
 
 ## PHASE 4 — SHIP
@@ -246,10 +258,12 @@ Rút ra bài học gì trong lúc build (bug khó, mẹo, bẫy tool)? → Ghi [
 [ ] 3. ART: gen key-art + og-card.jpg (1200×675) bằng media-tools §7
 [ ] 4. VERIFY §8: node --check + browser desktop 1280×800 & mobile 390×844 + 0 console error + chơi thử
        → kiểm DOCS.md KHỚP code (số màn, đường cong khó, công thức điểm)
-[ ] 5. README.md §6 → tạo repo + push (HTTPS) §5 → bật GitHub Pages → verify live
-[ ] 6. ARCADE §8: thumbnail + card + bump count + README + push
-[ ] 7. Confirm 2 URL live (game + arcade)
-[ ] 8. LEARN: ghi LESSONS.md + commit + push repo guide
+[ ] 5. TEST EVIDENCE §8b: chụp đủ mọi level/item/logic (d+m) → downsize → tests/screenshots/
+       + tests/TEST-REPORT.md (verdict PASS) → commit tests/ chung code → mới được DONE
+[ ] 6. README.md §6 → tạo repo + push (HTTPS) §5 → bật GitHub Pages → verify live
+[ ] 7. ARCADE §8: thumbnail + card + bump count + README + push
+[ ] 8. Confirm 2 URL live (game + arcade)
+[ ] 9. LEARN: ghi LESSONS.md + commit + push repo guide
 ```
 
 ---
@@ -268,6 +282,7 @@ Rút ra bài học gì trong lúc build (bug khó, mẹo, bẫy tool)? → Ghi [
 - [ ] 0 console error (trừ favicon 404 local).
 - [ ] `README.md` có Live link + "part of QUANG ARCADE".
 - [ ] Verify đã chạy (§8).
+- [ ] **Test evidence (§8b):** `tests/screenshots/` phủ mọi level/item/logic (desktop+mobile, downsized) + `tests/TEST-REPORT.md` verdict **PASS** + đã commit chung. Chưa có evidence → **chưa DONE**.
 - [ ] Đã gắn vào arcade hub (§8).
 - [ ] **`DOCS.md` đầy đủ & KHỚP code** (§0 tính năng · §5 level · §6 khó · §7 điểm · §14 CONFIG · §15 recipe · §16 history) — đọc là hiểu game không cần đọc code.
 - [ ] Bài học (nếu có) đã ghi vào LESSONS.md + push.

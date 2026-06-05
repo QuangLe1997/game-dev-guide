@@ -19,6 +19,14 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-04 · [verify][design] Survivors-like: bẫy va-chạm/entity & cách test khi rAF bị throttle
+Rút từ build `pulse-survivor` (top-down auto-shooter, nhiều entity).
+- **[verify] Browser tự động hoá báo `document.visibilityState='hidden'` → `requestAnimationFrame` bị PAUSE hoàn toàn** (game đứng yên, `time` không tăng) — tưởng game vỡ nhưng chỉ là tab "ẩn". Chrome MCP remote / headless background đều dính. ⇒ Đừng dựa vào rAF để test. Thêm 1 dev-helper **vô hại** `window._autoplay(frames)` tự **gọi thẳng các hàm tick** (chính logic thật) như một bot (lái tới shard, né địch, bắn overdrive). Vừa né throttle vừa cho telemetry thật (kills/level/hp/od). Để lại trong bản ship cũng được vì nó inert nếu không gọi.
+- **[verify] Lấy ảnh bằng chứng khi browser test là REMOTE/headless:** `save_to_disk` lưu ở máy chủ browser (không với tới), và trả base64 qua MCP hay bị **chặn**. ⇒ Cách chắc ăn: chạy **headless Chrome cục bộ** bằng `puppeteer-core` (trỏ `executablePath` tới Chrome/Edge có sẵn) serve `localhost`, lái state bằng `page.evaluate(_autoplay/_pick/_boss…)`, `el.screenshot()` chụp **cả HTML + canvas** native thẳng ra đĩa. Downsize ≤640px bằng System.Drawing.
+- **[design] Va chạm tiếp xúc PHẢI có i-frame, không cộng dồn mỗi frame.** Lần đầu code `hp -= dmg*dt*k` mỗi frame cho mọi địch chồng lên player → nhiều địch = mất máu tức thì (chết ~24s), và i-frame chỉ bật khi "1 hit lớn" nên không bao giờ bật. ⇒ Tiếp xúc là **1 hit rời rạc** `hp -= dmg`, set i-frame ~0.7s chặn stack. Đứng giữa bầy = ~1 hit / 0.7s, sống được & có nhịp.
+- **[design] Entity chết PHẢI bị lọc khỏi mảng mỗi frame.** Quên `S.enemies = S.enemies.filter(e=>!e.dead)` → "xác" địch ở lại: vẫn render, vẫn đuổi, vẫn gây damage, và **bị đạn bắn lại** → `killEnemy` chạy nhiều lần (kills/score/shard phồng lên giả). ⇒ Lọc dead cuối mỗi frame + guard `if(e.dead) return` trong `damageEnemy` + skip dead trong vòng đạn-vs-địch. (Bẫy này làm "spawn rate" tưởng sai 3× nhưng thực ra là kills bị đếm trùng.)
+- **[design] Float score lọt ra UI.** `S.score += dt*10` là số thực → game-over hiện `9,113.167`. ⇒ `Math.floor` khi lưu/hiện (HUD đã floor nhưng overlay quên).
+
 ## 2026-06-04 · [pages][perf] Stale deploy & màn hình đen — 2 bẫy ship phổ biến
 - **[pages] PWA kẹt bản cũ:** có service worker mà deploy không bump `CACHE_VERSION` → người chơi vẫn thấy bản cũ ("đã sửa mà không đổi"). ⇒ Bump version mỗi deploy đổi code; HTML/JS để network-first; verify ở tab ẩn danh. Không cần offline thì bỏ hẳn SW. Chi tiết: [`reference/retention-and-pwa.md` §5](reference/retention-and-pwa.md).
 - **[perf] CDN fail = trắng màn câm:** Three.js/Matter.js nạp qua CDN, nếu fail/chặn thì game đen thui không báo gì → tưởng vỡ. ⇒ Bọc init trong try/catch, hiện thông điệp + nút Reload. Chi tiết: [`reference/performance.md`](reference/performance.md).

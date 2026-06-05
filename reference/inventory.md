@@ -2,7 +2,7 @@
 
 > Cập nhật file này **sau mỗi game mới** (thêm dòng + đánh dấu màu đã dùng). Chọn `--accent` MỚI khác biệt cho game tiếp theo để arcade card không lẫn.
 
-## Games đang chạy (9 + hub)
+## Games đang chạy (10 + hub)
 
 | # | Game | `--accent` | Genre | Tech | Repo |
 |---|------|-----------|-------|------|------|
@@ -14,10 +14,9 @@
 | 06 | **SLIDE QUEST** | `#56d4ff` | Sliding picture puzzle (+ upload ảnh) | Canvas 2D | `slide-puzzle` |
 | 07 | **BLOCK BLAST** | `#54d6b2` | Neon 8×8 block puzzle | Canvas 2D | `block-blast` |
 | 08 | **TRIPLE MATCH 3D** | `#7fe0c0` | 3D tile-match (match-3) | Three.js | `triple-tile` |
-| 09 | **PRISM POUR** ⭐ | `#39e0c8` | Water sort puzzle (20 levels, star rating) | Canvas 2D | `prism-pour` |
+| 09 | **PRISM POUR** | `#39e0c8` | Water sort puzzle (20 levels, star rating) | Canvas 2D | `prism-pour` |
+| 10 | **PULSE SURVIVOR** ⭐ | `#c77dff` | Top-down survivors-like / bullet-heaven (auto-fire + OVERDRIVE) | Canvas 2D | `pulse-survivor` |
 | — | **QUANG ARCADE** (hub) | — | Showcase 1 trang | HTML/CSS | `arcade` |
-
-> ⚠️ Cột màu của 07/08 chưa xác nhận chính xác — mở `index.html` của chúng grep `--accent` để lấy giá trị thật khi cần.
 
 ## Màu accent ĐÃ DÙNG (tránh trùng)
 ```
@@ -29,7 +28,8 @@
 #56d4ff  sky blue     (slide)
 #54d6b2  mint green   (block)
 #7fe0c0  sea green    (triple)
-#39e0c8  teal         (prism pour) ⭐ NEW
+#39e0c8  teal         (prism pour)
+#c77dff  violet       (pulse survivor) ⭐ NEW
 ```
 
 ## Gợi ý màu accent CÒN TRỐNG (cho game mới)
@@ -38,7 +38,6 @@
 #ff6b3d  coral/red-orange
 #8de1ff  ice blue
 #f0d24a  bright yellow
-#c77dff  violet
 #ff4d6d  hot red
 ```
 

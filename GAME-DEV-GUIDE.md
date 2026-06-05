@@ -22,13 +22,16 @@
 │ 0.4 Phác level/difficulty + hệ điểm + juice                  │
 │ 0.5 Viết 1 mini "design doc" (DOCS.md) ngay trong repo game  │
 └──────────────────────────────────────────────────────────────┘
-┌─ PHASE 2: BUILD ─────────────────────────────────────────────┐
-│ 1. <head> + design tokens (§1, §2)                           │
+┌─ PHASE 2: BUILD (copy templates/starter/index.html rồi sửa) ─┐
+│ 1. <head> + design tokens (§1, §2)  [starter có sẵn]         │
 │ 2. Game loop fixed-tick + interpolation                      │
 │ 3. Core mechanic → render → input (kbd+mouse+touch)          │
 │ 4. Juice: particle / shake / popup / bloom                   │
 │ 5. Audio WebAudio synth + mute (§ reference/audio)           │
-│ 6. UI: menu / HUD / game-over / pause / localStorage         │
+│ 6. UI shell: menu / HUD / pause / game-over / localStorage   │
+│ 6b. First-run onboarding "How to Play"                       │
+│ 6c. (opt) Daily reward / achievements / leaderboard + PWA    │
+│ 6d. Perf budget + CDN-fail guard (reference/performance)     │
 └──────────────────────────────────────────────────────────────┘
 ┌─ PHASE 3: ART + VERIFY ──────────────────────────────────────┐
 │ 7. Gen key-art + og-card.jpg (1200×675) bằng media-tools (§7)│
@@ -115,6 +118,23 @@ Copy nguyên từ [`templates/head.html`](templates/head.html) — đã có đ�
 - Juice: pool particle, shake scale theo độ lớn sự kiện, popup điểm.
 - Audio: **WebAudio synth inline** (không file mp3), init sau user-gesture, nút mute. Xem [`reference/audio.md`](reference/audio.md).
 - UI: menu (start/settings/profile) · HUD (score/level/lives/combo) · pause · game-over (hero score + retry + stats) · `localStorage` lưu record (namespace key theo game).
+
+> 🚀 **Bắt đầu nhanh — dùng STARTER:** đừng dựng shell từ đầu. Copy [`templates/starter/index.html`](templates/starter/index.html) — đã có sẵn & chạy được: mobile-frame layout, scene shell (menu→play→pause→gameover), `AudioManager`/`SaveManager`/`Settings` (music/sfx/haptic), HUD, mute, onboarding overlay, difficulty pills, fixed loop placeholder. **Chỉ thay phần `GAME LOGIC`** bằng game của bạn, giữ nguyên hệ thống quanh nó.
+
+### 6b. First-run onboarding (BẮT BUỘC cho game casual)
+Người chơi mới phải hiểu cách chơi trong ~10 giây đầu. Có overlay **"How to Play"** tự hiện **lần đầu** (lưu cờ `localStorage` `onboarded`), lần sau vào thẳng game; vẫn truy cập lại được từ menu. (Đã có sẵn trong STARTER.)
+
+### 6c. Hệ thống giữ chân + PWA (tuỳ chọn nhưng nên có)
+Làm game "đầy đủ" như bản thương mại — copy module từ [`reference/retention-and-pwa.md`](reference/retention-and-pwa.md):
+- **Daily reward** (chuỗi 7 ngày) · **Achievements** · **Local leaderboard** (top 10, không cần server).
+- **PWA**: `manifest.webmanifest` + `sw.js` ([`templates/pwa/`](templates/pwa/)) → installable + offline.
+- 🔴 **Nếu dùng PWA, PHẢI bump `CACHE_VERSION` trong `sw.js` mỗi deploy đổi code** — không bump = người chơi kẹt bản cũ (xem §cache-busting). Không cần offline thì **bỏ hẳn SW** cho đỡ rắc rối cache.
+
+### 6d. Performance + robustness
+Đặt ngân sách FPS + fallback — xem [`reference/performance.md`](reference/performance.md):
+- Target 60fps desktop / 30+fps mobile yếu; **tự hạ chất lượng** (giảm particle/bloom/DPR) khi tụt.
+- 🔴 **CDN-fail guard**: bọc init Three.js/Matter.js trong try/catch → hiện thông điệp + nút Reload, **không để trắng màn câm**.
+- Global error catch; `dispose()` tài nguyên 3D khi đổi level/biome.
 
 ---
 

@@ -1,0 +1,25 @@
+# Copy file này thành ".gitignore" ở gốc repo game.
+# (Để tên gitignore.txt trong template vì một số tool ẩn dotfile.)
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node (chỉ khi game có tooling — game zero-build thì thường không có)
+node_modules/
+npm-debug.log*
+
+# Ảnh screenshot THÔ trước khi downsize (chỉ commit bản đã downsize trong tests/screenshots/)
+_raw/
+tests/_raw/
+*.raw.png
+
+# File tạm verify
+_check.mjs
+*.tmp

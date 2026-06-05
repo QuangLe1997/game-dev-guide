@@ -50,8 +50,11 @@
 | **Luồng tự test + bằng chứng screenshot → DONE** | [`reference/testing-and-evidence.md`](reference/testing-and-evidence.md) ⭐ |
 | Bài học / lỗi đã gặp / mẹo (đọc TRƯỚC khi build) | [`LESSONS.md`](LESSONS.md) ⭐ |
 | Design system chi tiết (màu/font/glass) | [`reference/design-system.md`](reference/design-system.md) |
+| **Starter boilerplate (copy là chạy: shell+audio+save+settings+onboarding)** | [`templates/starter/index.html`](templates/starter/index.html) ⭐ |
 | Cơ chế game (loop, level, score, juice) | [`reference/game-mechanics.md`](reference/game-mechanics.md) |
 | Âm thanh WebAudio | [`reference/audio.md`](reference/audio.md) |
+| Retention (daily/achievements/leaderboard) + PWA + cache-busting | [`reference/retention-and-pwa.md`](reference/retention-and-pwa.md) |
+| Performance budget + CDN-fail guard | [`reference/performance.md`](reference/performance.md) |
 | Chọn 2D / 3D theo thể loại | [`reference/2d-vs-3d.md`](reference/2d-vs-3d.md) |
 | Danh sách game + màu accent đã dùng | [`reference/inventory.md`](reference/inventory.md) |
 | Template copy-paste | [`templates/`](templates/) |

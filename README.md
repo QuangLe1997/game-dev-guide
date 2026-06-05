@@ -15,12 +15,16 @@
 | [`reference/design-system.md`](reference/design-system.md) | Màu / font / glassmorphism / responsive (copy-paste tokens). |
 | [`reference/game-mechanics.md`](reference/game-mechanics.md) | Game loop, level/difficulty, score/combo, juice, state machine. |
 | [`reference/audio.md`](reference/audio.md) | WebAudio synth SFX + nhạc nền, mute, iOS resume. |
+| [`reference/retention-and-pwa.md`](reference/retention-and-pwa.md) | Daily reward · achievements · leaderboard · PWA · cache-busting. |
+| [`reference/performance.md`](reference/performance.md) | Ngân sách FPS · tự hạ chất lượng · CDN-fail guard · global error. |
 | [`reference/testing-and-evidence.md`](reference/testing-and-evidence.md) | ⭐ Luồng agent tự test + chụp/downsize screenshot làm bằng chứng + định nghĩa DONE. |
 | [`reference/2d-vs-3d.md`](reference/2d-vs-3d.md) | Khi nào dùng 3D (Three.js) vs 2D (Canvas). |
 | [`reference/inventory.md`](reference/inventory.md) | Danh sách game hiện có + màu `--accent` đã dùng (để chọn màu mới). |
 | [`templates/GAME-DOCS-template.md`](templates/GAME-DOCS-template.md) | ⭐ Khung **tài liệu kỹ thuật bắt buộc** cho mỗi game (cấu trúc màn chơi/độ khó/điểm). |
 | [`templates/TEST-REPORT-template.md`](templates/TEST-REPORT-template.md) | ⭐ Khung **báo cáo QA** (test case + ảnh bằng chứng + verdict PASS). |
-| [`templates/`](templates/) | `<head>`, README game, arcade card — copy-paste. |
+| [`templates/starter/`](templates/starter/) | ⭐ Game skeleton chạy được (mobile-frame + shell + audio/save/settings + onboarding). |
+| [`templates/pwa/`](templates/pwa/) | `manifest.webmanifest` + `sw.js` (cache-busting) cho PWA. |
+| [`templates/`](templates/) | `<head>`, README game, arcade card, `.gitignore`, `LICENSE` — copy-paste. |
 
 ## 🚀 Dùng thế nào (agent session mới)
 

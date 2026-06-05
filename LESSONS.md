@@ -19,6 +19,11 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-04 · [pages][perf] Stale deploy & màn hình đen — 2 bẫy ship phổ biến
+- **[pages] PWA kẹt bản cũ:** có service worker mà deploy không bump `CACHE_VERSION` → người chơi vẫn thấy bản cũ ("đã sửa mà không đổi"). ⇒ Bump version mỗi deploy đổi code; HTML/JS để network-first; verify ở tab ẩn danh. Không cần offline thì bỏ hẳn SW. Chi tiết: [`reference/retention-and-pwa.md` §5](reference/retention-and-pwa.md).
+- **[perf] CDN fail = trắng màn câm:** Three.js/Matter.js nạp qua CDN, nếu fail/chặn thì game đen thui không báo gì → tưởng vỡ. ⇒ Bọc init trong try/catch, hiện thông điệp + nút Reload. Chi tiết: [`reference/performance.md`](reference/performance.md).
+- **[perf] Mobile yếu giật:** render DPR 3–4× + bloom + particle `new` mỗi frame. ⇒ Cap DPR ≤2 mobile, pool particle, `lowFX` tự bật khi fps<45.
+
 ## 2026-06-04 · [seed] Các bài học gốc rút từ 8 game đang chạy
 Những điều này đã được kiểm chứng qua các game hiện có — coi như nền tảng:
 

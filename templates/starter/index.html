@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<!-- Mobile-first, khoá zoom (game). Hub thì để scalable. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>STARTER — Tagline · Play Free</title>
+<meta name="description" content="STARTER game skeleton — replace with your pitch." />
+<!-- OG/Twitter: thay <repo> + tạo assets/og-card.jpg 1200×675 (media-tools). -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="STARTER — tagline" />
+<meta property="og:description" content="Short pitch for sharing." />
+<meta property="og:image" content="https://quangle1997.github.io/<repo>/assets/og-card.jpg" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="675" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>🎮</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+/* ---------- TOKENS (đổi --accent cho game của bạn) ---------- */
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#06060d; --ink:#eef0ff; --mut:#9aa0c0; --line:rgba(255,255,255,.10);
+  --disp:'Orbitron',system-ui,sans-serif; --body:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  --accent:#5be58a;
+}
+html,body{height:100%;}
+body{ background:var(--bg); color:var(--ink); font-family:var(--body); line-height:1.45;
+  -webkit-font-smoothing:antialiased; display:grid; place-items:center; overflow:hidden;
+  user-select:none; -webkit-user-select:none; touch-action:manipulation; }
+body::before{ content:""; position:fixed; inset:-30%; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(40% 40% at 18% 22%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 60%),
+    radial-gradient(38% 38% at 82% 18%, rgba(127,224,224,.14), transparent 60%),
+    radial-gradient(45% 45% at 76% 84%, rgba(255,90,138,.13), transparent 60%),
+    radial-gradient(42% 42% at 22% 82%, rgba(167,139,250,.13), transparent 60%);
+  filter:blur(20px); animation:mesh 26s ease-in-out infinite alternate; }
+@keyframes mesh{ from{transform:translate3d(-3%,-2%,0) scale(1)} to{transform:translate3d(3%,3%,0) scale(1.08)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;} }
+
+/* ---------- MOBILE-FRAME (strategy A): khung portrait canh giữa, letterbox desktop ---------- */
+#app{ position:relative; width:min(100vw,480px); height:100dvh; max-height:100dvh;
+  overflow:hidden; background:linear-gradient(180deg,#0b0d16,#070810);
+  box-shadow:0 0 0 1px var(--line), 0 30px 80px -20px color-mix(in srgb,var(--accent) 40%,transparent); }
+canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+/* ---------- HUD ---------- */
+#hud{ position:absolute; inset:0; pointer-events:none; padding:env(safe-area-inset-top) 12px 0; }
+.chip{ border:1px solid var(--line); background:linear-gradient(180deg,rgba(22,24,38,.72),rgba(12,13,22,.82));
+  backdrop-filter:blur(14px); border-radius:14px; padding:8px 12px; font-family:var(--disp); font-weight:800; }
+#top{ position:absolute; top:calc(env(safe-area-inset-top) + 10px); left:10px; right:10px;
+  display:flex; gap:8px; align-items:center; justify-content:space-between; }
+#score{ font-size:18px; letter-spacing:.04em; }
+#score small{ display:block; font-family:var(--body); font-weight:500; font-size:10px; color:var(--mut); letter-spacing:.18em; }
+.icons{ display:flex; gap:8px; pointer-events:auto; }
+.icons button{ all:unset; cursor:pointer; width:40px; height:40px; display:grid; place-items:center;
+  border:1px solid var(--line); border-radius:12px; background:rgba(20,22,34,.7); backdrop-filter:blur(14px); font-size:18px; }
+
+/* ---------- OVERLAYS ---------- */
+.overlay{ position:absolute; inset:0; display:grid; place-items:center; padding:24px;
+  background:radial-gradient(120% 120% at 50% 0%, rgba(8,9,16,.5), rgba(6,6,13,.9)); z-index:10; }
+.overlay.hidden{ display:none; } .overlay.hidden *{ pointer-events:none; }
+.panel{ width:100%; max-width:360px; text-align:center; border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(22,24,38,.85),rgba(12,13,22,.92)); backdrop-filter:blur(14px);
+  border-radius:22px; padding:26px 22px; box-shadow:0 24px 60px -18px color-mix(in srgb,var(--accent) 45%,transparent); }
+h1{ font-family:var(--disp); font-weight:900; text-transform:uppercase; letter-spacing:.04em;
+  font-size:clamp(30px,9vw,48px); line-height:1; margin-bottom:6px;
+  background:linear-gradient(95deg,#ffd24a,var(--accent),#a78bfa,#ff5a8a); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.kick{ font-family:var(--disp); font-weight:700; text-transform:uppercase; letter-spacing:.3em; font-size:11px; color:var(--mut); margin-bottom:18px; }
+.btn{ all:unset; cursor:pointer; display:block; width:100%; margin:10px 0; padding:15px; text-align:center;
+  font-family:var(--disp); font-weight:800; text-transform:uppercase; letter-spacing:.12em; font-size:15px; border-radius:14px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 85%,#fff 0%),color-mix(in srgb,var(--accent) 70%,#000 18%));
+  color:#06120c; box-shadow:0 10px 26px -10px color-mix(in srgb,var(--accent) 70%,transparent); }
+.btn.ghost{ background:rgba(255,255,255,.05); color:var(--ink); border:1px solid var(--line); box-shadow:none; }
+.pills{ display:flex; gap:8px; justify-content:center; margin:14px 0 4px; }
+.pill{ flex:1; padding:11px 6px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.04);
+  font-family:var(--disp); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.08em; cursor:pointer; color:var(--mut); }
+.pill.on{ color:#06120c; background:var(--accent); border-color:transparent; }
+.stat{ display:flex; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px; }
+.stat b{ font-family:var(--disp); color:var(--accent); }
+.how{ text-align:left; color:var(--mut); font-size:14px; line-height:1.6; margin:8px 0 4px; }
+.how b{ color:var(--ink); }
+.toggle{ display:flex; align-items:center; justify-content:space-between; padding:11px 2px; font-size:14px; }
+.sw{ width:46px; height:26px; border-radius:20px; background:rgba(255,255,255,.12); position:relative; cursor:pointer; transition:.15s; }
+.sw.on{ background:var(--accent); } .sw::after{ content:""; position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%; background:#fff; transition:.15s; }
+.sw.on::after{ left:23px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="cv"></canvas>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="top">
+      <div class="chip" id="score">0<small>SCORE</small></div>
+      <div class="icons">
+        <button id="muteBtn" aria-label="Mute">🔊</button>
+        <button id="pauseBtn" aria-label="Pause">⏸</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <div class="overlay" id="menu">
+    <div class="panel">
+      <h1>STARTER</h1>
+      <div class="kick">Replace me · part of QUANG ARCADE</div>
+      <div class="pills" id="diffPills">
+        <div class="pill" data-diff="easy">Easy</div>
+        <div class="pill on" data-diff="normal">Normal</div>
+        <div class="pill" data-diff="hard">Hard</div>
+      </div>
+      <button class="btn" id="playBtn">▶ Play</button>
+      <button class="btn ghost" id="howBtn">How to play</button>
+      <div class="stat"><span>Best</span><b id="bestVal">0</b></div>
+    </div>
+  </div>
+
+  <!-- HOW TO PLAY (onboarding, tự hiện lần đầu) -->
+  <div class="overlay hidden" id="how">
+    <div class="panel">
+      <h1 style="font-size:30px">How to play</h1>
+      <div class="how">
+        <p>👆 <b>Tap the glowing targets</b> before they fall off-screen.</p>
+        <p>🔥 Chain taps fast for a <b>combo multiplier</b>.</p>
+        <p>⏱️ Targets speed up each level — survive & beat your best.</p>
+      </div>
+      <button class="btn" id="howOk">Got it</button>
+    </div>
+  </div>
+
+  <!-- PAUSE -->
+  <div class="overlay hidden" id="pause">
+    <div class="panel">
+      <h1 style="font-size:34px">Paused</h1>
+      <div class="kick">Take a breath</div>
+      <div class="toggle"><span>Music</span><div class="sw on" id="swMusic"></div></div>
+      <div class="toggle"><span>Sound FX</span><div class="sw on" id="swSfx"></div></div>
+      <div class="toggle"><span>Haptics</span><div class="sw on" id="swHaptic"></div></div>
+      <button class="btn" id="resumeBtn">Resume</button>
+      <button class="btn ghost" id="quitBtn">Quit to menu</button>
+    </div>
+  </div>
+
+  <!-- GAME OVER -->
+  <div class="overlay hidden" id="gameover">
+    <div class="panel">
+      <div class="kick">Game over</div>
+      <h1 id="finalScore">0</h1>
+      <div class="stat"><span>Best</span><b id="goBest">0</b></div>
+      <div class="stat"><span>Level reached</span><b id="goLevel">1</b></div>
+      <button class="btn" id="retryBtn">▶ Play again</button>
+      <button class="btn ghost" id="menuBtn">Menu</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+/* ============================================================
+   STARTER SKELETON — thay phần GAME LOGIC bằng game của bạn.
+   Mọi hệ thống quanh nó (scene shell, audio, save, settings,
+   onboarding, HUD, pause, gameover) đã sẵn — giữ & tái dùng.
+   ============================================================ */
+
+const NS = 'starter';                              // ← đổi namespace localStorage theo game
+const $ = s => document.querySelector(s);
+
+/* ---------- SaveManager (localStorage) ---------- */
+const Save = {
+  get(k, d){ try{ const v = localStorage[`${NS}.${k}`]; return v==null?d:JSON.parse(v); }catch{ return d; } },
+  set(k, v){ try{ localStorage[`${NS}.${k}`] = JSON.stringify(v); }catch{} },
+};
+
+/* ---------- Settings ---------- */
+const Settings = {
+  music:  Save.get('music', true),
+  sfx:    Save.get('sfx', true),
+  haptic: Save.get('haptic', true),
+  save(){ Save.set('music',this.music); Save.set('sfx',this.sfx); Save.set('haptic',this.haptic); },
+};
+
+/* ---------- AudioManager (WebAudio synth — không file ngoài) ---------- */
+const Audio = {
+  ctx:null, muted: Save.get('muted', false),
+  ensure(){ if(!this.ctx) this.ctx = new (window.AudioContext||window.webkitAudioContext)();
+            if(this.ctx.state==='suspended') this.ctx.resume(); return this.ctx; },   // iOS: gọi trong gesture
+  note(f=440,d=.1,type='square',g=.18){ if(this.muted||!Settings.sfx) return; const a=this.ensure();
+    const o=a.createOscillator(), gn=a.createGain(); o.type=type; o.frequency.value=f;
+    gn.gain.setValueAtTime(g,a.currentTime); gn.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);
+    o.connect(gn).connect(a.destination); o.start(); o.stop(a.currentTime+d); },
+  sfx(id){ ({ tap:()=>this.note(560+S.combo*40,.07,'triangle'),
+              miss:()=>this.note(150,.16,'sawtooth',.22),
+              level:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>this.note(f,.12,'sine'),i*70)),
+              over:()=>this.note(110,.5,'sawtooth',.28) }[id]||(()=>{}))(); },
+};
+function haptic(ms){ if(Settings.haptic && navigator.vibrate) navigator.vibrate(ms); }
+
+/* ---------- SceneManager ---------- */
+const Scenes = ['menu','how','pause','gameover'];
+function show(id){ Scenes.forEach(s=>$('#'+s).classList.toggle('hidden', s!==id)); }
+function hideAll(){ Scenes.forEach(s=>$('#'+s).classList.add('hidden')); }
+
+/* ---------- State ---------- */
+const DIFF = {
+  easy:   { spawn:1100, fall:0.9, perLevel:8 },
+  normal: { spawn:850,  fall:1.2, perLevel:10 },
+  hard:   { spawn:650,  fall:1.6, perLevel:12 },
+};
+const S = {
+  mode:'menu', diff:'normal', cfg:DIFF.normal,
+  score:0, level:1, hitThisLevel:0, combo:0, lastHit:0, best:Save.get('best',0),
+  targets:[], lastSpawn:0, lives:3,
+};
+
+/* ---------- Canvas ---------- */
+const cv = $('#cv'), ctx = cv.getContext('2d'); let W=0,H=0,DPR=1;
+function resize(){ const r=cv.getBoundingClientRect(); DPR=Math.min(devicePixelRatio||1,2);
+  cv.width=r.width*DPR; cv.height=r.height*DPR; W=r.width; H=r.height; ctx.setTransform(DPR,0,0,DPR,0,0); }
+addEventListener('resize', resize);
+
+/* ============================================================
+   GAME LOGIC (placeholder: tap falling targets) — THAY PHẦN NÀY
+   ============================================================ */
+function spawnTarget(){ const r=18+Math.random()*10;
+  S.targets.push({ x:r+Math.random()*(W-2*r), y:-r, r, vy:(40+Math.random()*30)*S.cfg.fall, hue:Math.random()*60+120 }); }
+function tickGame(dt, now){
+  if(now - S.lastSpawn > S.cfg.spawn){ spawnTarget(); S.lastSpawn=now; }
+  for(const t of S.targets){ t.y += t.vy*dt; }
+  // miss → mất mạng
+  const before=S.targets.length;
+  S.targets = S.targets.filter(t=>{ if(t.y - t.r > H){ loseLife(); return false; } return true; });
+}
+function onTap(x,y){
+  for(let i=S.targets.length-1;i>=0;i--){ const t=S.targets[i]; const d=Math.hypot(x-t.x,y-t.y);
+    if(d<=t.r+6){ S.targets.splice(i,1); hit(); return; } }
+}
+function hit(){ const now=performance.now();
+  S.combo = (now-S.lastHit<1200)? Math.min(S.combo+1,8):0; S.lastHit=now;
+  const pts = Math.round(10*S.level*(1+S.combo*0.15)); S.score+=pts; S.hitThisLevel++;
+  Audio.sfx('tap'); haptic(12);
+  if(S.hitThisLevel>=S.cfg.perLevel){ S.level++; S.hitThisLevel=0; S.cfg={...S.cfg, spawn:Math.max(380,S.cfg.spawn-60), fall:S.cfg.fall*1.08}; Audio.sfx('level'); haptic([10,40,10]); }
+  updateHUD();
+}
+function loseLife(){ S.lives--; S.combo=0; Audio.sfx('miss'); haptic(60); if(S.lives<=0) gameOver(); }
+function drawGame(){ ctx.clearRect(0,0,W,H);
+  for(const t of S.targets){ ctx.beginPath(); ctx.arc(t.x,t.y,t.r,0,7);
+    ctx.fillStyle=`hsl(${t.hue} 70% 55%)`; ctx.shadowColor=`hsl(${t.hue} 90% 60%)`; ctx.shadowBlur=18; ctx.fill(); ctx.shadowBlur=0; }
+  // lives
+  ctx.fillStyle='#fff'; ctx.font='16px sans-serif'; ctx.textAlign='right';
+  ctx.fillText('❤'.repeat(Math.max(0,S.lives)), W-12, H-14);
+}
+/* ====================== /GAME LOGIC ========================= */
+
+/* ---------- HUD ---------- */
+function updateHUD(){ $('#score').firstChild.textContent=S.score; }
+
+/* ---------- Flow ---------- */
+function startGame(){ Audio.ensure(); resize();
+  Object.assign(S,{ mode:'playing', cfg:{...DIFF[S.diff]}, score:0, level:1, hitThisLevel:0, combo:0, targets:[], lastSpawn:0, lives:3 });
+  updateHUD(); hideAll(); }
+function pauseGame(){ if(S.mode!=='playing') return; S.mode='paused'; show('pause'); }
+function resumeGame(){ if(S.mode!=='paused') return; S.mode='playing'; hideAll(); last=performance.now(); }
+function gameOver(){ S.mode='gameover'; Audio.sfx('over'); haptic([40,60,40]);
+  if(S.score>S.best){ S.best=S.score; Save.set('best',S.best); }
+  $('#finalScore').textContent=S.score; $('#goBest').textContent=S.best; $('#goLevel').textContent=S.level;
+  Save.set('plays',(Save.get('plays',0)+1)); show('gameover'); }
+function toMenu(){ S.mode='menu'; $('#bestVal').textContent=S.best; show('menu'); }
+
+/* ---------- Main loop (fixed-ish; placeholder dùng dt thực) ---------- */
+let last=0;
+function loop(now){ const dt=Math.min((now-(last||now))/1000,0.05); last=now;
+  if(S.mode==='playing'){ tickGame(dt,now); drawGame(); }
+  requestAnimationFrame(loop); }
+requestAnimationFrame(loop);
+
+/* ---------- Input ---------- */
+cv.addEventListener('pointerdown', e=>{ if(S.mode!=='playing') return; Audio.ensure();
+  const r=cv.getBoundingClientRect(); onTap(e.clientX-r.left, e.clientY-r.top); });
+addEventListener('keydown', e=>{ if(e.key==='Escape'||e.key===' '){ S.mode==='playing'?pauseGame():(S.mode==='paused'&&resumeGame()); } });
+
+/* ---------- Wire UI ---------- */
+$('#diffPills').addEventListener('click', e=>{ const p=e.target.closest('.pill'); if(!p) return;
+  S.diff=p.dataset.diff; [...$('#diffPills').children].forEach(c=>c.classList.toggle('on',c===p)); Audio.ensure(); Audio.note(700,.05); });
+$('#playBtn').onclick   = ()=>{ if(!Save.get('onboarded',false)){ Save.set('onboarded',true); show('how'); } else startGame(); };
+$('#howBtn').onclick    = ()=> show('how');
+$('#howOk').onclick     = ()=> startGame();
+$('#pauseBtn').onclick  = ()=> S.mode==='playing'?pauseGame():resumeGame();
+$('#resumeBtn').onclick = resumeGame;
+$('#quitBtn').onclick   = toMenu;
+$('#retryBtn').onclick  = startGame;
+$('#menuBtn').onclick   = toMenu;
+$('#muteBtn').onclick   = ()=>{ Audio.muted=!Audio.muted; Save.set('muted',Audio.muted); $('#muteBtn').textContent=Audio.muted?'🔇':'🔊'; Audio.ensure(); };
+
+function bindSwitch(el, key){ const sw=$(el); const sync=()=>sw.classList.toggle('on', Settings[key]);
+  sync(); sw.onclick=()=>{ Settings[key]=!Settings[key]; Settings.save(); sync(); }; }
+bindSwitch('#swMusic','music'); bindSwitch('#swSfx','sfx'); bindSwitch('#swHaptic','haptic');
+
+/* ---------- Boot ---------- */
+resize(); $('#muteBtn').textContent=Audio.muted?'🔇':'🔊'; toMenu();
+
+/* DEV helpers (xoá hoặc giữ vô hại trước khi ship) */
+window._S=S; window._win=gameOver;
+</script>
+</body>
+</html>

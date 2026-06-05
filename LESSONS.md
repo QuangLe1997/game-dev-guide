@@ -19,6 +19,13 @@ Nhãn gợi ý: `[git]` `[pages]` `[media-tools]` `[threejs]` `[audio]` `[mobile
 
 <!-- ↓↓↓ THÊM ENTRY MỚI NGAY DƯỚI ĐÂY (mới nhất trên cùng) ↓↓↓ -->
 
+## 2026-06-04 · [verify][design] Chụp screenshot xong PHẢI soi vỡ layout, không chỉ "tính năng có hiện"
+- **Triệu chứng:** Test `pulse-survivor` bằng screenshot, mọi state "PASS" vì mình chỉ check *tính năng có render không*. User mở ra thấy **vỡ layout quá trời**: chữ trong card level-up dính liền ("Fire Rate +22%Shoot faster"), HUD (score/timer + thanh HP/XP/OD ở đáy) **lòi xuyên qua** mọi overlay (menu/level-up/pause/gameover) bị cắt nham nhở ở mép.
+- **Nguyên nhân:** Functional-correct ≠ visually-correct. `<span>` cho name/desc không `display:block` → dính dòng. `#hud` luôn hiện (inset:0) → lộ sau panel. Mình bỏ qua bước soi layout.
+- **Cách xử lý:** Thêm **1 pass review UI/UX bắt buộc** trước khi DONE — soi TỪNG ảnh tìm: phần tử chồng/cắt/tràn mép & safe-area · chữ dính/wrap xấu/span phải là block · label quá nhỏ · **HUD/nền lòi qua dialog** (overlay phải che chrome gameplay) · padding/canh lệch · contrast & màu có dễ chịu không · banner/popup sót lại sai màn. Fix rồi **chụp lại**. Coi vỡ layout = bug chặn như bug logic.
+- **Snippet:** ẩn HUD sau overlay: `#hud{opacity:1;transition:.18s} #app.overlay-open #hud{opacity:0}` + toggle `.overlay-open` trong `show()`/`hideAll()`. Card 2 dòng: `.nm,.ds{display:block}` + `.meta{display:flex;flex-direction:column;gap:3px}`.
+- **Game:** `pulse-survivor`.
+
 ## 2026-06-04 · [verify][design] Survivors-like: bẫy va-chạm/entity & cách test khi rAF bị throttle
 Rút từ build `pulse-survivor` (top-down auto-shooter, nhiều entity).
 - **[verify] Browser tự động hoá báo `document.visibilityState='hidden'` → `requestAnimationFrame` bị PAUSE hoàn toàn** (game đứng yên, `time` không tăng) — tưởng game vỡ nhưng chỉ là tab "ẩn". Chrome MCP remote / headless background đều dính. ⇒ Đừng dựa vào rAF để test. Thêm 1 dev-helper **vô hại** `window._autoplay(frames)` tự **gọi thẳng các hàm tick** (chính logic thật) như một bot (lái tới shard, né địch, bắn overdrive). Vừa né throttle vừa cho telemetry thật (kills/level/hp/od). Để lại trong bản ship cũng được vì nó inert nếu không gọi.

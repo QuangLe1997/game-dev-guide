@@ -2,7 +2,7 @@
 
 > Cập nhật file này **sau mỗi game mới** (thêm dòng + đánh dấu màu đã dùng). Chọn `--accent` MỚI khác biệt cho game tiếp theo để arcade card không lẫn.
 
-## Games đang chạy (8 + hub)
+## Games đang chạy (9 + hub)
 
 | # | Game | `--accent` | Genre | Tech | Repo |
 |---|------|-----------|-------|------|------|
@@ -12,8 +12,9 @@
 | 04 | **SUIKA MERGE** | `#ff5a8a` | Watermelon merge physics | Canvas + Matter.js | `suika-merge` |
 | 05 | **BRICK BLITZ** | `#a78bfa` | Glossy "metal Tetris" speed-ramp | Canvas 2D | `brick-blitz` |
 | 06 | **SLIDE QUEST** | `#56d4ff` | Sliding picture puzzle (+ upload ảnh) | Canvas 2D | `slide-puzzle` |
-| 07 | **BLOCK BLAST** | `#?` (xác nhận trong index.html) | Neon 8×8 block puzzle | Canvas 2D | `block-blast` |
-| 08 | **TRIPLE MATCH 3D** | `#?` (xác nhận trong index.html) | 3D tile-match (match-3) | Three.js | `triple-tile` |
+| 07 | **BLOCK BLAST** | `#54d6b2` | Neon 8×8 block puzzle | Canvas 2D | `block-blast` |
+| 08 | **TRIPLE MATCH 3D** | `#7fe0c0` | 3D tile-match (match-3) | Three.js | `triple-tile` |
+| 09 | **PRISM POUR** ⭐ | `#39e0c8` | Water sort puzzle (20 levels, star rating) | Canvas 2D | `prism-pour` |
 | — | **QUANG ARCADE** (hub) | — | Showcase 1 trang | HTML/CSS | `arcade` |
 
 > ⚠️ Cột màu của 07/08 chưa xác nhận chính xác — mở `index.html` của chúng grep `--accent` để lấy giá trị thật khi cần.
@@ -26,6 +27,9 @@
 #ff5a8a  pink/rose    (suika)
 #a78bfa  purple       (brick)
 #56d4ff  sky blue     (slide)
+#54d6b2  mint green   (block)
+#7fe0c0  sea green    (triple)
+#39e0c8  teal         (prism pour) ⭐ NEW
 ```
 
 ## Gợi ý màu accent CÒN TRỐNG (cho game mới)
@@ -35,7 +39,6 @@
 #8de1ff  ice blue
 #f0d24a  bright yellow
 #c77dff  violet
-#39e0c8  teal
 #ff4d6d  hot red
 ```
 

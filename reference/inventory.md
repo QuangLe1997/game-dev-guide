@@ -2,7 +2,7 @@
 
 > Cập nhật file này **sau mỗi game mới** (thêm dòng + đánh dấu màu đã dùng). Chọn `--accent` MỚI khác biệt cho game tiếp theo để arcade card không lẫn.
 
-## Games đang chạy (18 + hub)
+## Games đang chạy (19 + hub)
 
 | # | Game | `--accent` | Genre | Tech | Repo |
 |---|------|-----------|-------|------|------|
@@ -23,7 +23,8 @@
 | 15 | **LEGION RUSH** | `#ff3344` | 3D neon crowd-multiplier runner (×/＋/− gates, %-cull hazards, barrier slam, 8 stages, no-loss streak) | Three.js | `legion-rush` |
 | 16 | **UMBRA** | `#9b8cff` | 3D shadow-silhouette puzzle (rotate construct → cast shadow matches target via IoU; dual-light = 2 shadows at once, 15 levels, star rating) | Three.js | `umbra` |
 | 17 | **COMET** | `#8de1ff` | One-tap 3D orbit-slingshot flow arcade (hold=latch+orbit gravity well, release=tangent through goal ring; SEAMLESS endless chambers, FLOW slow-mo + score mult + bloom, pulsar/debris hazards) | Three.js | `comet` |
-| 18 | **CLEAVE** ⭐ | `#ff8da3` | 3D swipe-to-slice neon shard arcade (Fruit-Ninja-evolved; 5 shard types, per-swipe multi-slice combo, FRENZY slow-mo+×2 meter, bomb-dodge, endless tier ramp, 3 modes) | Three.js | `cleave` |
+| 18 | **CLEAVE** | `#ff8da3` | 3D swipe-to-slice neon shard arcade (Fruit-Ninja-evolved; 5 shard types, per-swipe multi-slice combo, FRENZY slow-mo+×2 meter, bomb-dodge, endless tier ramp, 3 modes) | Three.js | `cleave` |
+| 19 | **REFRACT** ⭐ | `#ffd24a` | 3D light-beam refraction puzzle (tap mirrors/prisms/filters/splitters to route + mix neon beams; RGB-bit color algebra, prism splits white→RGB, additive mix R+G=Yellow; 18 levels, BFS-verified solvable + par, star rating, orbit camera, movable pieces) | Three.js | `refract` |
 | — | **QUANG ARCADE** (hub) | — | Showcase 1 trang | HTML/CSS | `arcade` |
 
 ## Màu accent ĐÃ DÙNG (tránh trùng)
@@ -45,12 +46,12 @@
 #ff3344  hot scarlet   (legion rush)
 #9b8cff  periwinkle    (umbra)
 #8de1ff  ice blue       (comet)
-#ff8da3  warm rose      (cleave) ⭐ NEW
+#ff8da3  warm rose      (cleave)
+#ffd24a  bright amber   (refract) ⭐ NEW
 ```
 
 ## Gợi ý màu accent CÒN TRỐNG (cho game mới)
 ```
-#ffd24a  bright amber (khác overclock đủ?)
 #7CFFB2  spring green
 ```
 
